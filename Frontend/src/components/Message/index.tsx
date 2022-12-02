@@ -49,9 +49,9 @@ const Message: FC<MessageProps> = ({
                 </div>
                 <div className={'message__info'}>
                     {
-                        text && isTyping && (
+                        text && (
                             <div className={'message__bubble'}>
-                                {text && <p className={'message__text'}>{text}</p>}
+                                {text && !isTyping && <p className={'message__text'}>{text}</p>}
                                 {isTyping &&
                                     <div className={'message__typing'}>
                                         <span/>

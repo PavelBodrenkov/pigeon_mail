@@ -1,0 +1,37 @@
+.chat-input {
+  margin: 20px;
+  position: relative;
+  &__smile-btn, &__actions {
+    position: absolute;
+    z-index: 1;
+  }
+
+  .anticon {
+    font-size: 18px;
+    cursor: pointer;
+    opacity: .5;
+    transition: 0.2s linear;
+    &:hover {
+      opacity: .8;
+    }
+
+  }
+
+  //.ant-btn-circle {
+  //  border:0;
+  //  box-shadow: none;
+  //}
+
+  .ant-input-affix-wrapper {
+    &-focused {
+      border-color: #d9d9d9 !important;
+    }
+    &:hover {
+      border-color: #d9d9d9 !important;
+    }
+    &:focus {
+      box-shadow: none;
+      border-color: #d9d9d9 !important;
+    }
+  }
+}

@@ -1,17 +1,24 @@
 import React from 'react';
-import {Message, Dialogs} from "@components/index";
+import {Message, Dialogs, Status, ChatInput} from "@components/index";
 import './Home.scss';
 import {Input} from "antd";
-import {TeamOutlined, FormOutlined, SearchOutlined, EllipsisOutlined} from '@ant-design/icons';
+import {
+    TeamOutlined,
+    FormOutlined,
+    SearchOutlined,
+    EllipsisOutlined,
+    SmileOutlined,
+    InfoCircleOutlined,
+    AudioOutlined,
+    SendOutlined,
+    CameraOutlined
+} from '@ant-design/icons';
 
 
 const Home = () => {
 
     return (
-        // <DialogItem />
         <section className={'home'}>
-
-
             <div className={'chat'}>
                 <div className={'chat__sidebar'}>
                     <div className={'chat__sidebar-header'}>
@@ -65,12 +72,12 @@ const Home = () => {
                         <div className={'chat__dialog-header-center'}>
                             <b className={'chat__dialog-header-username'}>Pavel</b>
                             <div className={'chat__dialog-header-status'}>
-                                <span className={'status status--online'}>онлайн</span>
+                                <Status online={true}/>
                             </div>
                         </div>
-                        <EllipsisOutlined style={{fontSize:22}}/>
+                        <EllipsisOutlined style={{fontSize: 22}}/>
                     </div>
-                    <div className={'chat__dialog--messages'}>
+                    <div className={'chat__dialog-messages'}>
                         <Message
                             avatar={'https://mediasole.ru/data/images/412/412388/23stunning-landscape-view-argentina.jpg'}
                             // text={'Hello'}
@@ -81,8 +88,8 @@ const Home = () => {
                             // isReaded={true}
                             attachments={[
                                 {
-                                    filename:'test',
-                                    url:'https://mediasole.ru/data/images/412/412388/23stunning-landscape-view-argentina.jpg'
+                                    filename: 'test',
+                                    url: 'https://mediasole.ru/data/images/412/412388/23stunning-landscape-view-argentina.jpg'
                                 }
                             ]}
                         />
@@ -94,6 +101,83 @@ const Home = () => {
                             isMe={true}
                             isReaded={true}
                         />
+                        <Message
+                            avatar={'https://mediasole.ru/data/images/412/412388/23stunning-landscape-view-argentina.jpg'}
+                            text={'Hello'}
+                            date={'Thu Dec 01 2022 16:20:07'}
+                            user={{}}
+                            isMe={true}
+                            isReaded={true}
+                        />
+                        <Message
+                            avatar={'https://mediasole.ru/data/images/412/412388/23stunning-landscape-view-argentina.jpg'}
+                            text={'Hello'}
+                            date={'Thu Dec 01 2022 16:20:07'}
+                            user={{}}
+                            isMe={true}
+                            isReaded={true}
+                        />
+                        <Message
+                            avatar={'https://mediasole.ru/data/images/412/412388/23stunning-landscape-view-argentina.jpg'}
+                            text={'Hello'}
+                            date={'Thu Dec 01 2022 16:20:07'}
+                            user={{}}
+                            isMe={true}
+                            isReaded={true}
+                        />
+                        <Message
+                            avatar={'https://mediasole.ru/data/images/412/412388/23stunning-landscape-view-argentina.jpg'}
+                            text={'Hello'}
+                            date={'Thu Dec 01 2022 16:20:07'}
+                            user={{}}
+                            isMe={true}
+                            isReaded={true}
+                        />
+                        <Message
+                            avatar={'https://mediasole.ru/data/images/412/412388/23stunning-landscape-view-argentina.jpg'}
+                            text={'Hello'}
+                            date={'Thu Dec 01 2022 16:20:07'}
+                            user={{}}
+                            isMe={true}
+                            isReaded={true}
+                            isTyping={true}
+                        />
+                        <Message
+                            avatar={'https://mediasole.ru/data/images/412/412388/23stunning-landscape-view-argentina.jpg'}
+                            text={'Hello'}
+                            date={'Thu Dec 01 2022 16:20:07'}
+                            user={{}}
+                            isMe={true}
+                            isReaded={true}
+                        />
+                        <Message
+                            avatar={'https://mediasole.ru/data/images/412/412388/23stunning-landscape-view-argentina.jpg'}
+                            text={'Hello'}
+                            date={'Thu Dec 01 2022 16:20:07'}
+                            user={{}}
+                            isMe={true}
+                            isReaded={true}
+                        />
+                        <Message
+                            avatar={'https://mediasole.ru/data/images/412/412388/23stunning-landscape-view-argentina.jpg'}
+                            text={'Hello'}
+                            date={'Thu Dec 01 2022 16:20:07'}
+                            user={{}}
+                            isMe={true}
+                            isReaded={true}
+                        />
+                        <Message
+                            avatar={'https://mediasole.ru/data/images/412/412388/23stunning-landscape-view-argentina.jpg'}
+                            text={'Hello'}
+                            date={'Thu Dec 01 2022 16:20:07'}
+                            user={{}}
+                            isMe={true}
+                            isReaded={true}
+                        />
+
+                    </div>
+                    <div className={'chat__dialog-input'}>
+                        <ChatInput />
                     </div>
                 </div>
             </div>
