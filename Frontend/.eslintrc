@@ -1,0 +1,119 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "import",
+    "jest"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended"
+
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+  "rules": {
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error",
+
+    //New suppress errors and warnings
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+
+    //Rules with MANY MANY messages
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+
+    //Current rules with off instead warnings for future testing
+    "import/no-duplicates": "warn",
+    "react/display-name": "warn",
+    "react/jsx-key": "warn",
+    "@typescript-eslint/no-extra-semi": "warn",
+    "@typescript-eslint/no-inferrable-types": "warn",
+    "@typescript-eslint/ban-types":"warn",
+
+    "no-extra-boolean-cast": "off",
+    "prefer-const": "off",
+    "@typescript-eslint/no-shadow": "off",
+
+    "@typescript-eslint/no-use-before-define": "off",
+
+    "@typescript-eslint/no-empty-interface": [
+      "off",
+      {
+        "allowSingleExtends": true
+      }
+    ],
+    "@typescript-eslint/no-empty-function": ["off"],
+    "@typescript-eslint/no-var-requires": "off",
+    "react/jsx-filename-extension": ["off", { "extensions": [".jsx", ".tsx", ".ts", ".js"] }],
+    "react/react-in-jsx-scope": "off",
+    "react/no-unescaped-entities": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "off",
+
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "ts": "never",
+        "tsx": "never",
+        "js": "never",
+        "jsx": "never"
+      }
+    ],
+
+
+    "no-console": "off",
+
+    "quotes": [
+      "off",
+      "single"
+    ],
+    "jsx-quotes": [
+      "off",
+      "prefer-double"
+    ],
+    "indent": [
+      "off",
+      4
+    ],
+    "max-len": [
+      "off",
+      999
+    ],
+    "comma-dangle": [
+      "off",
+      "always-multiline"
+    ],
+    "semi": [
+      "off",
+      "always"
+    ],
+    "react/prop-types": "off"
+  }
+}

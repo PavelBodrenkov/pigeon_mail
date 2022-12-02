@@ -1,0 +1,10 @@
+node_modules
+build
+craco.config.js
+tests
+*.e2e.js
+*.page.js
+*.conf.js
+*.css
+*.scss
+*.svg

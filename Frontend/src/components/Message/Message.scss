@@ -1,0 +1,149 @@
+@import './src/styles/variables';
+
+.message {
+  $self: &;
+
+  &__content {
+    display: flex;
+    max-width: 440px;
+    margin-bottom: 20px;
+    position: relative;
+
+    &:hover {
+      #{$self}__icon-actions {
+        display: block;
+      }
+    }
+  }
+
+  &__avatar {
+    display: flex;
+    flex-direction: column-reverse;
+
+    .avatar {
+      margin-right: 13px;
+      margin-bottom: 23px;
+    }
+
+  }
+
+  &__bubble {
+    background-color: $blue;
+    box-shadow: 0 5px 5px rgba(54, 116, 255, 0.196733);
+    border-radius: 12px 12px 12px 0;
+    padding: 15px;
+    margin-bottom: 8px;
+  }
+
+  &__date {
+    font-size: 12px;
+    opacity: 0.4;
+  }
+
+  &__text {
+    color: #fff;
+    line-height: 20px;
+  }
+
+  &__attachments {
+    display: flex;
+    margin-bottom: 5px;
+    &-item {
+      margin-right: 5px;
+      cursor: pointer;
+      img {
+        width:45px;
+        height: 45px;
+        border-radius: 10px;
+      }
+    }
+  }
+
+  &__icon-readed {
+    position: absolute;
+    bottom: 20px;
+    left: -25px;
+
+    &--no {
+      //position: absolute;
+      //bottom: 20px;
+      left: -22px;
+    }
+  }
+
+  &--isme {
+    display: flex;
+    flex-direction: row-reverse;
+
+    #{$self}__content {
+      margin-bottom: 15px;
+      flex-direction: row-reverse;
+    }
+
+    #{$self}__avatar {
+      .avatar {
+        margin-right: 0;
+        margin-left: 13px;
+      }
+    }
+
+    #{$self}__buble {
+      background-color: #fff;
+      border: 1px solid #ececec;
+      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.0220444);
+
+      #{$self}__text {
+        color: $black;
+      }
+    }
+  }
+
+  &--is-typing {
+    #{$self}__bubble {
+      background-color: $message-typing-blue;
+      box-shadow: 0 5px 5px rgba(54, 116, 225, 0.44);
+      padding:15px 20px;
+    }
+  }
+
+  &--image {
+  #{$self}__attachments {
+    &-item {
+      img {
+        width: 150px;
+        height: 150px;
+      }
+    }
+  }
+  }
+
+  &__typing {
+    span {
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      background-color: #c1c1c1;
+      display: inline-block;
+      margin-right: 8px;
+      animation-name: typingAnimation;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-duration: .5s;
+
+      &:nth-last-of-type(2) {
+        animation-delay: .6s;
+      }
+      &:nth-last-of-type(3) {
+        animation-delay: .7s;
+      }
+    }
+  }
+@keyframes typingAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+}

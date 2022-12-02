@@ -1,0 +1,86 @@
+@import "src/styles/variables";
+.dialogs {
+  //width: 300px;
+  &__item {
+    $item: &;
+
+    display: flex;
+    position: relative;
+    padding: 10px;
+    border-radius: 7px;
+
+    &--avatar {
+      position: relative;
+      margin-right: 10px;
+    }
+
+    &--online {
+      #{$item}--avatar {
+          &::before {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            content:'';
+            background-color: $green;
+            border-radius: 30px;
+            width: 13px;
+            height: 13px;
+            border: 3px solid #fff;
+            z-index: 999;
+          }
+      }
+    }
+
+    &-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+
+      &-top {
+        display: flex;
+
+        b {
+          font-weight: 500;
+          font-size: 14px;
+          flex: 1;
+          margin-bottom: 8px;
+        }
+        span {
+          opacity: 0.4;
+        }
+      }
+
+      &-bottom {
+      p {
+        opacity: 0.5;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        width: 220px;
+      }
+        &-count {
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
+          background-color: #f46b6b;
+          color:#fff;
+          font-weight: bold;
+          width:18px;
+          height: 18px;
+          border-radius: 30px;
+          font-size: 11px;
+          text-align: center;
+          line-height: 17px;
+          box-shadow: 0 0 0 3px #fff;
+        }
+        .message__icon-readed {
+          bottom:13px;
+          left: auto;
+          right: 20px;
+        }
+      }
+    }
+  }
+}
