@@ -5,14 +5,17 @@ import {MessageStatus, Time} from "@components/index"
 import isToday from 'date-fns/isToday'
 import format from 'date-fns/format'
 import './DialogItem.scss';
+import {useAppDispatch} from "../../hooks/redux";
+import {setCurrentDialog} from "@redux/reducers/dialogs";
 
-const DialogItem: FC<any> = ({user, message, unreaded, isMe}) => {
+const DialogItem: FC<any> = ({user, id, message, unreaded, isMe}) => {
 
+    const dispatch = useAppDispatch();
     const getMessageTime = (created_at) => {
         if(isToday(created_at)) {
             return format(created_at, "HH:mm")
         } else {
-            return format(created_at, "DD.MM.YYY")
+            return format(created_at, "dd.MM.YYY")
         }
     }
 
@@ -28,7 +31,10 @@ const DialogItem: FC<any> = ({user, message, unreaded, isMe}) => {
     }
 
     return (
-        <div className={classNames('dialogs__item', {'dialogs__item--online': user.isOnline})}>
+        <div
+            className={classNames('dialogs__item', {'dialogs__item--online': user.isOnline})}
+            onClick={() => dispatch(setCurrentDialog(id))}
+        >
             <div className={'dialogs__item--avatar'}>
                 {getAvatar(user.avatar)}
             </div>

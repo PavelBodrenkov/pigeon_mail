@@ -3,10 +3,10 @@ const router = new Router();
 const usersController = require('./../controllers/users.controller');
 
 
-router.post('/user', usersController.createUser)
-router.get('/user', usersController.getUsers)
-router.get('/user/:id', usersController.getOneUser)
-router.put('/user', usersController.updateUser)
-router.delete('/user', usersController.deleteUser)
+// router.post('/', usersController.registration)
+router.get('/', usersController.getUsers)
+router.get('/me', usersController.getUserMe)
+router.put('/', usersController.updateUser)
+router.delete('/', usersController.deleteUser)
 
 module.exports = router

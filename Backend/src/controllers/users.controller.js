@@ -1,28 +1,62 @@
 const db = require('../db');
+const UserService = require('../services/user.service');
 
 class UsersController {
-    async createUser(req, res) {
-        const {email, avatar, fullname, password, is_admin}  = req.body
-        const sql = `INSERT INTO users (email, avatar, fullname, password, is_admin, created_at) VALUES($1, $2, $3, $4, $5, $6) RETURNING *`
-        const user = await db.query(sql, [email, avatar, fullname, password, 0, new Date()])
-        res.json(user)
+
+    async registration(req, res) {
+        try {
+            const user = await UserService.createUser(req)
+            res.cookie('refreshToken', user.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            return res.json(user)
+        } catch (e) {
+            console.log('error', e)
+        }
+    }
+
+    async login(req, res) {
+        try {
+            const user = await UserService.loginUser(req)
+            res.cookie('refreshToken', user.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            return res.json(user)
+        } catch (e) {
+            console.log('error', e)
+        }
     }
 
     async getUsers(req, res) {
-        const sql = `SELECT * FROM users`
-        const users = await db.query(sql)
-        res.json(users)
+        try {
+            const users = await UserService.getUsers()
+            return res.json(users)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    async getOneUser(req, res) {
-
+    async getUserMe(req, res) {
+        try {
+            const user = await UserService.getUserMe(req)
+            return res.json(user)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     async updateUser(req, res) {
-
+        try {
+            const user = await UserService.updateUser(req)
+            return res.json(user.rows[0])
+        } catch (e) {
+            console.log(e)
+        }
     }
 
     async deleteUser(req, res) {
+        try {
+            await UserService.deleteUser(req)
+            return res.json('Пользователь удален')
+        } catch (e) {
+            console.log(e)
+        }
 
     }
 }

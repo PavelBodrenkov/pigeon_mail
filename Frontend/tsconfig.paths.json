@@ -3,6 +3,8 @@
     "baseUrl": "./src",
     "paths": {
       "@components/*" : ["./components/*"],
+      "@containers/*" : ["./containers/*"],
+      "@redux/*" : ["./redux/*"],
       "@actions/*" : ["./actions/*"],
       "@assets/*" : ["./assets/*"],
       "@modules/*": ["./modules/*"],
@@ -10,7 +12,9 @@
       "@pages/*": ["./pages/*"],
       "@routes/*" : ["./routes/*"],
       "@styles/*" : ["./styles/*"],
-      "@utils/*" : ["./utils/*"]
+      "@types/*" : ["./types/*"],
+      "@utils/*" : ["./utils/*"],
+      "@core/*" : ["./core/*"]
     }
   }
 }

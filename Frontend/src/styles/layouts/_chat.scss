@@ -37,16 +37,18 @@
     }
 
     &-dialogs {
+      height: calc(100% - 146px);
       .dialogs {
+        height: 100%;
+        overflow: auto;
         &__item {
           padding: 10px 20px;
           margin-bottom: 0;
           transition: 0.1s;
-
+          cursor: pointer;
           &.active,
           &:hover {
             background-color: #f0f0f0;
-            cursor: pointer;
           }
         }
       }
@@ -76,7 +78,7 @@
     }
     &-messages {
       padding: 20px 20px 0 20px;
-      background-color: #d9f7be;
+      //background-color: #d9f7be;
       height: calc(100% - 138px);
       overflow: auto;
     }

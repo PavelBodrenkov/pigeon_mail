@@ -18,6 +18,7 @@ interface MessageProps {
     isMe?: boolean,
     isReaded?: boolean,
     attachments?: {
+        id:number,
         filename: string,
         url: string
     }[],
@@ -64,10 +65,10 @@ const Message: FC<MessageProps> = ({
                         )
                     }
                     <div className={'message__attachments'}>
-                        {attachments && attachments.map((photo: { filename: string, url: string }) => {
-                            const {filename, url} = photo
+                        {attachments && attachments.map((photo: { filename: string, url: string, id:number }) => {
+                            const {filename, url, id} = photo
                             return (
-                                <div className={'message__attachments-item'}>
+                                <div className={'message__attachments-item'} key={id}>
                                     <img src={url} alt={filename}/>
                                 </div>
                             )
