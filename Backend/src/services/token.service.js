@@ -22,6 +22,22 @@ class TokenService {
         }
     }
 
+    async validateAccessToken(token) {
+        try{
+            return jwt.verify(token, process.env.JWT_ACCESS_TOKEN )
+        } catch (e) {
+            return null
+        }
+    }
+
+    async validateRefreshToken(token) {
+        try{
+            return jwt.verify(token, process.env.JWT_REFRESH_TOKEN)
+        } catch (e) {
+            return null
+        }
+    }
+
     async saveToken(userId, refreshToken) {
         const sql = `SELECT refresh_token FROM tokens WHERE user_id = $1`
         const tokenData = await db.query(sql, [userId])
@@ -32,6 +48,16 @@ class TokenService {
 
         const sqlToken = `INSERT INTO tokens (user_id, refresh_token, created_at) VALUES($1, $2, $3) RETURNING *`
         return await db.query(sqlToken, [userId, refreshToken, new Date()])
+    }
+
+    async removeToken(refreshToken) {
+        const sql = `UPDATE tokens SET deleted_at = $1 WHERE refresh_token = $2`
+        return await db.query(sql, [new Date(), refreshToken])
+    }
+
+    async findToken(refreshToken) {
+        const sql = `SELECT refresh_token FROM tokens WHERE refresh_token = $1`
+        return await db.query(sql, [refreshToken])
     }
 }
 

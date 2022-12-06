@@ -1,17 +1,23 @@
 const db = require('../db');
+const dialogService = require('../services/dialog.service')
 
 class DialogsController {
     async createDialog(req, res) {
-        const {owner, partner}  = req.body
-        const sql = `INSERT INTO dialogs (owner, partner, created_at) VALUES($1, $2, $3) RETURNING *`
-        const dialogs = await db.query(sql, [owner, partner, new Date()])
-        res.json(dialogs)
+       try {
+           const dialog = await dialogService.createDialog(req)
+           res.json(dialog)
+       } catch (e) {
+           console.log(e)
+       }
     }
 
     async getDialogs(req, res) {
-        const sql = `SELECT * FROM dialogs WHERE owner = ?`
-        const users = await db.query(sql, [1])
-        res.json(users)
+       try {
+           const dialogs = await dialogService.getAllDialogsByUser(req)
+           res.json(dialogs)
+       } catch (e) {
+           console.log(e)
+       }
     }
 }
 

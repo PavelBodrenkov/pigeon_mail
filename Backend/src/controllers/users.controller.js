@@ -23,6 +23,27 @@ class UsersController {
         }
     }
 
+    async logout(req, res) {
+        try {
+            const {refreshToken} = req.cookies;
+            const token = await UserService.logout(refreshToken)
+            res.clearCookie('refreshToken')
+            return res.json(token)
+        } catch (e) {
+            console.log('error', e)
+        }
+    }
+
+    async refreshToken(req, res) {
+        try {
+            const {refreshToken} = req.cookies;
+            const userData = await UserService.refresh(refreshToken)
+            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+        } catch(e) {
+            console.log('error', e)
+        }
+    }
+
     async getUsers(req, res) {
         try {
             const users = await UserService.getUsers()

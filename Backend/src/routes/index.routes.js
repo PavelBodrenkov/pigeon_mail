@@ -25,13 +25,14 @@ router.post('/signup',celebrate({
     }),
 }), usersController.registration)
 
-router.get('/activate/:link')
+router.get('/refresh', usersController.refreshToken)
+
 router.use(auth);
 router.use(errorLogger);
 
+router.get('/activate/:link')
 router.use('/user', userRouter);
 router.use('/dialog', dialogRouter);
 router.use('/', errorRouter);
-
 
 module.exports = router;
