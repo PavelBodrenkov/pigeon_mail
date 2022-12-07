@@ -16,7 +16,7 @@ class UserService {
     }
 
     async findUserByEmail(email) {
-        const sql = `SELECT *
+        const sql = `SELECT id, email, avatar, fullname, is_admin, confirmed,confirmed_hash, activation_link, is_activation, last_seen
                      FROM users
                      WHERE email = $1
                        AND deleted_at is null`
@@ -25,7 +25,7 @@ class UserService {
     }
 
     async findUserById(id) {
-        const sql = `SELECT *
+        const sql = `SELECT id, email, avatar, fullname, is_admin, confirmed,confirmed_hash, activation_link, is_activation, last_seen
                      FROM users
                      WHERE id = $1
                        AND deleted_at is null`
@@ -52,6 +52,7 @@ class UserService {
 
     async loginUser(req) {
         const {email, password} = req.body;
+        console.log(email, password)
         const user = await this.findUserByEmail(email)
         if (!user) {
             throw new UnauthorizedError('Неправильная почта или пароль')

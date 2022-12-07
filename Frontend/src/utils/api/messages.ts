@@ -1,6 +1,6 @@
-import {axios} from '../../core/index';
+import {$api} from '../../core/index';
 
 const messages = {
-    getAllByDialogId: (id:number) => axios.get(`/messages?id=${id}`)
+    getAllByDialogId: (id:number) => $api.get(`/messages?id=${id}`)
 }
 export default messages

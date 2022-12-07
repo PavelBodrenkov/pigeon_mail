@@ -1,6 +1,6 @@
-import {axios} from '../../core/index';
+import {$api} from '../../core/index';
 
 const dialogs = {
-    getAll: () => axios.get("/dialogs")
+    getAll: () => $api.get("/dialogs")
 }
 export default dialogs

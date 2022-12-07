@@ -3,14 +3,15 @@ import './Auth.scss';
 import {LoginForm, RegisterForm} from "../../modules";
 import {Route, Routes} from "react-router-dom";
 
-const Auth: FC = () => {
+const Auth: FC<{ type: string }> = ({type}) => {
     return (
         <section className={'auth'}>
             <div className={'auth__content'}>
-              <Routes>
-                  <Route path={'login'} element={<LoginForm/>}/>
-                  <Route path={'register'} element={<RegisterForm/>}/>
-              </Routes>
+                {type === '/login' ?
+                    <LoginForm/>
+                    :
+                    <RegisterForm/>
+                }
             </div>
         </section>
     );

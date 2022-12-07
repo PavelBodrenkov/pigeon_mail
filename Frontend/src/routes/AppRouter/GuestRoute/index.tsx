@@ -4,7 +4,7 @@ import { Navigate, useLocation, Outlet } from "react-router-dom";
 
 const GuestRoute:FC<any> = ({ children, ...rest }) => {
 
-    const auth = true
+    const auth = false
     const location = useLocation();
     const url = new URLSearchParams(location.search.slice(1));
 

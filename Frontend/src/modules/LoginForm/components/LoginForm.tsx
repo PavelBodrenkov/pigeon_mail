@@ -1,14 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Form, Input} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import {Button, Block} from "@components/index";
 import {Link} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
+import {auth} from "@redux/actions";
 
 const LoginForm = () => {
+    const dispatch = useAppDispatch();
+    const { user, isLoading, error} = useAppSelector(state => state.users)
+
 
     const onLoginSubmit = (values: any) => {
+        dispatch(auth.fetchLogin(values))
         console.log('Received values of form: ', values);
     };
+    console.log('user',user)
+
 
     return (
         <>
@@ -24,7 +32,7 @@ const LoginForm = () => {
                     autoComplete="off"
                 >
                     <Form.Item
-                        name="username"
+                        name="email"
                         hasFeedback
                         rules={[{required: true, message: 'Обязательное поле'}]}
                     >
