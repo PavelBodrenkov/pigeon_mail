@@ -8,7 +8,7 @@ interface loginProps {
 }
 
 interface registerProps {
-    fullName:string
+    fullname:string
     email:string,
     password:string
 }
@@ -29,8 +29,9 @@ const fetchLogin = createAsyncThunk(
 const fetchRegister = createAsyncThunk(
     'register/fetch',
     async (data:registerProps, thunkAPI) => {
+        console.log('data', data)
         try {
-            const response = await AuthApi.registration(data.fullName, data.email, data.password)
+            const response = await AuthApi.registration(data.fullname, data.email, data.password)
             return response.data
         } catch (e) {
             return thunkAPI.rejectWithValue('Ошибка регистрации')

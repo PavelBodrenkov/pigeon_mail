@@ -3,12 +3,18 @@ import {Form, Input} from "antd";
 import {LockOutlined, UserOutlined, MailOutlined, ExclamationCircleTwoTone} from "@ant-design/icons";
 import {Button, Block} from "@components/index";
 import {Link} from "react-router-dom";
+import {auth} from "@redux/actions";
+import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 
 const RegisterForm = () => {
-
+    const dispatch = useAppDispatch();
+    const { user, isLoading, error} = useAppSelector(state => state.users)
     const success = false
 
+    console.log('user', user)
+
     const onRegisterSubmit = (values: any) => {
+        dispatch(auth.fetchRegister(values))
         console.log('Received values of form: ', values);
     };
 
@@ -41,7 +47,7 @@ const RegisterForm = () => {
                             />
                         </Form.Item>
                         <Form.Item
-                            name="username"
+                            name="fullname"
                             hasFeedback
                             rules={[{required: true, message: 'Обязательное поле'}]}
                         >
