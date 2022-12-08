@@ -4,6 +4,7 @@ const { celebrate, Joi } = require('celebrate');
 const {requestLogger, errorLogger}  = require('../middlewares/logger');
 const userRouter = require('./user.routes');
 const dialogRouter = require('./dialog.routes');
+const messageRouter = require('./message.routes');
 const usersController = require('./../controllers/users.controller');
 const auth = require('../middlewares/auth');
 const errorRouter = require('./error');
@@ -33,6 +34,7 @@ router.use(errorLogger);
 router.get('/activate/:link')
 router.use('/user', userRouter);
 router.use('/dialog', dialogRouter);
+router.use('/message', messageRouter)
 router.use('/', errorRouter);
 
 module.exports = router;

@@ -1,4 +1,3 @@
-const db = require('../db');
 const dialogService = require('../services/dialog.service')
 
 class DialogsController {
@@ -19,6 +18,7 @@ class DialogsController {
            console.log(e)
        }
     }
+
 }
 
 module.exports = new DialogsController()

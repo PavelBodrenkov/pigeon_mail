@@ -3,8 +3,8 @@ const db = require('../db');
 class DialogService {
 
     async getAllDialogsByUser(req) {
-        // const {id} = req.user
-        const id = 3
+        const {id} = req.user
+        console.log('id', id)
         const sql =
             `
             SELECT U.id as userId, U.fullname, U.avatar, C.id as convId, C.sender, C.unread, M.message, M.date

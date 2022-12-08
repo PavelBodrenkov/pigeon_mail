@@ -1,34 +1,74 @@
-import React from 'react';
-import {Message, Status, ChatInput} from "@components/index";
+import React, {useState} from 'react';
+import {Message, Status, ChatInput, HoverButton} from "@components/index";
 import {Dialogs, Messages} from "@containers/index";
 import './Home.scss';
-import {Input} from "antd";
+import {Button, Drawer, Image, Input, Popover, Space} from "antd";
 import {
     TeamOutlined,
     FormOutlined,
     SearchOutlined,
     EllipsisOutlined,
-    SmileOutlined,
-    InfoCircleOutlined,
-    AudioOutlined,
-    SendOutlined,
-    CameraOutlined
+    ArrowLeftOutlined
 } from '@ant-design/icons';
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import {auth} from "@redux/actions";
+import {SidebarHeader} from '@components/index'
 
 
 const Home = () => {
+    const dispatch = useAppDispatch();
+
+    const { user } = useAppSelector(state => state.users)
+
+    const logout = () => {
+        dispatch(auth.fetchLogout())
+    }
+    const [open, setOpen] = useState(false)
+
+    const onClose = () => {
+        setOpen(false);
+    };
+    const openDrawer = () => {
+        setOpen(true);
+    };
 
     return (
         <section className={'home'}>
             <div className={'chat'}>
                 <div className={'chat__sidebar'}>
-                    <div className={'chat__sidebar-header'}>
+                    <Drawer
+                        title={
+                            <div
+                                className={'chat__sidebar-header'}
+                                style={{marginBottom:0, borderBottom:0, height:57}}
+                            >
+                               <HoverButton onClick={onClose}>
+                                   <ArrowLeftOutlined/>
+                               </HoverButton>
+                               <span>Настройки</span>
+                           </div>
+                        }
+                        placement="left"
+                        closable={false}
+                        onClose={onClose}
+                        open={open}
+                        getContainer={false}
+                        width={319}
+                        style={{boxShadow: 'none'}}
+                    >
                         <div>
-                            <TeamOutlined/>
-                            <span>Список диалогов</span>
+                            <Image
+                                // src={'https://funart.pro/uploads/posts/2021-04/1617458799_2-p-oboi-zakat-zimoi-2.jpg'}
+                                src="error"
+                                fallback={'https://funart.pro/uploads/posts/2021-04/1617458799_2-p-oboi-zakat-zimoi-2.jpg'}
+                            />
+                            <button onClick={logout}>Выход</button>
+
                         </div>
-                        <FormOutlined/>
-                    </div>
+                    </Drawer>
+                    <SidebarHeader
+                        openDrawer={openDrawer}
+                    />
                     <div className={'chat__sidebar-search'}>
                         <Input
                             placeholder={'Поиск по списку диалогов'}
@@ -39,7 +79,7 @@ const Home = () => {
                             ownerId={1}
                             items={[
                                 {
-                                    id:1,
+                                    id: 1,
                                     text: 'Я создал',
                                     isReaded: true,
                                     created_at: new Date('Fri Dec 02 2022 13:36:20'),
@@ -52,7 +92,7 @@ const Home = () => {
                                     unreaded: 0
                                 },
                                 {
-                                    id:2,
+                                    id: 2,
                                     text: 'Я создал',
                                     isReaded: true,
                                     created_at: new Date('Fri Dec 02 2022 13:36:20'),
@@ -73,7 +113,7 @@ const Home = () => {
                     <div className={'chat__dialog-header'}>
                         <div/>
                         <div className={'chat__dialog-header-center'}>
-                            <b className={'chat__dialog-header-username'}>Pavel</b>
+                            <b className={'chat__dialog-header-username'}>{user.fullname}</b>
                             <div className={'chat__dialog-header-status'}>
                                 <Status online={true}/>
                             </div>
@@ -81,7 +121,7 @@ const Home = () => {
                         <EllipsisOutlined style={{fontSize: 22}}/>
                     </div>
                     <div className={'chat__dialog-messages'}>
-                        <Messages items={[]} />
+                        <Messages items={[]}/>
                         {/*<Message*/}
                         {/*    avatar={'https://mediasole.ru/data/images/412/412388/23stunning-landscape-view-argentina.jpg'}*/}
                         {/*    // text={'Hello'}*/}
@@ -108,7 +148,7 @@ const Home = () => {
                         {/*/>*/}
                     </div>
                     <div className={'chat__dialog-input'}>
-                        <ChatInput />
+                        <ChatInput/>
                     </div>
                 </div>
             </div>

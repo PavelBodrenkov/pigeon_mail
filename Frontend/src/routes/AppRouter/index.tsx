@@ -3,16 +3,22 @@ import PrivateRoute from "@routes/AppRouter/PrivateRoute";
 import {HOME, LOGIN, REGISTER} from "@utils/constants";
 import {Auth, Home} from "@pages/index";
 import GuestRoute from "@routes/AppRouter/GuestRoute";
+import {Spinner} from "@components/Spinner";
 
 const AppRouter = () => {
-    const loaded = true
-    return loaded ? (
+    const loading = false
+    return loading ?
+        (
+            <Spinner center={true} size={'large'}/>
+        )
+        :
+        (
             <Routes>
                 <Route
                     path={HOME}
                     element={
                         <PrivateRoute>
-                            <Home />
+                            <Home/>
                         </PrivateRoute>
                     }
                 />
@@ -27,8 +33,7 @@ const AppRouter = () => {
                     </GuestRoute>
                 }/>
             </Routes>
-        ) :
-        (<div>Загрузка...</div>)
+        )
 }
 
 export default AppRouter

@@ -2,21 +2,26 @@ import React, {FC} from 'react';
 import './Dialogs.scss'
 import {DialogItem} from "@components/index";
 import sortBy from 'lodash/sortBy'
+import {useAppSelector} from "../../hooks/redux";
 
-const Dialogs: FC<any> = ({items, ownerId, onSearch, inputValue, onSelect}) => {
+const Dialogs: FC<any> = ({items}) => {
 
+    const { user } = useAppSelector(state => state.users)
     return (
         <div className={'dialogs'}>
-            {sortBy(items, ['created_at']).map((item) => {
-                const {id, user, unreaded} = item
+            {items?.map((item) => {
+                const {avatar, convid, unread, date, fullname, message, sender, userid} = item
                 return (
                     <DialogItem
-                        key={id}
-                        id={id}
-                        user={user}
-                        unreaded={unreaded}
-                        message={item}
-                        isMe={user.id === ownerId}
+                        fullname={fullname}
+                        avatar={avatar}
+                        convid={convid}
+                        key={convid}
+                        unreaded={unread}
+                        message={message}
+                        date={date}
+                        sender={sender}
+                        isMe={user.id === sender}
                     />
                 )
             })

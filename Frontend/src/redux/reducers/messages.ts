@@ -3,13 +3,13 @@ import {dialogItem} from '../../types/dialogTypes';
 import {fetchMessages} from "@redux/actions";
 
 interface initialState {
-    items:any[],
+    messages:any[],
     isLoading:boolean,
     error:string
 }
 
 const initialState:initialState = {
-    items:[],
+    messages:[],
     isLoading:false,
     error:''
 }
@@ -23,7 +23,7 @@ const messagesSlice = createSlice( {
         [fetchMessages.fulfilled.type]: (state, action) => {
             state.isLoading = false;
             state.error = '';
-            state.items = action.payload
+            state.messages = action.payload
         },
         [fetchMessages.pending.type]: (state) => {
             state.isLoading = true

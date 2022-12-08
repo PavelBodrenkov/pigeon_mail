@@ -6,20 +6,18 @@ import {fetchDialogs} from "@redux/actions";
 import {Spinner} from '@components/Spinner';
 import {Alert} from "antd";
 
-const Dialogs: FC<dialogProps> = ({items, ownerId}) => {
+const Dialogs: FC<dialogProps> = ({ ownerId}) => {
 
     const dispatch = useAppDispatch();
-    const { currentDialog, isLoading, error} = useAppSelector(state => state.dialogs)
+    const { items ,currentDialog, isLoading, error} = useAppSelector(state => state.dialogs)
     const [inputValue, setInputValue] = useState<string>('')
     const [filtered, setFiltered] = useState<dialogItem[]>(Array.from(items))
 
+    console.log('items', items)
+
     useEffect(() => {
-        if(!items) {
-            dispatch(fetchDialogs())
-        } else {
-            setFiltered(items)
-        }
-    }, [items])
+        dispatch(fetchDialogs())
+    }, [])
 
     const onChangeInput = (value: string) => {
         setFiltered(
@@ -36,15 +34,25 @@ const Dialogs: FC<dialogProps> = ({items, ownerId}) => {
                 </div>
             }
             {error && <Alert message={error} type="error" />}
-            {!error && !isLoading && (filtered.length !== 0 ?
+            {/*{!error && !isLoading && (filtered.length !== 0 ?*/}
+            {/*    <BaseDialogs*/}
+            {/*        ownerId={ownerId}*/}
+            {/*        items={filtered}*/}
+            {/*        onChangeInput={onChangeInput}*/}
+            {/*        inputValue={inputValue}*/}
+            {/*    />*/}
+            {/*    :*/}
+            {/*    <b>Нет начатых диалогов</b>)*/}
+            {/*}*/}
+            {!error && !isLoading && (
                 <BaseDialogs
                     ownerId={ownerId}
-                    items={filtered}
+                    items={items}
                     onChangeInput={onChangeInput}
                     inputValue={inputValue}
                 />
-                :
-                <b>Нет начатых диалогов</b>)
+                )
+
             }
         </>
     );

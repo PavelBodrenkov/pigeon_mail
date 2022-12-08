@@ -16,7 +16,7 @@ class UserService {
     }
 
     async findUserByEmail(email) {
-        const sql = `SELECT id, email, avatar, fullname, is_admin, confirmed,confirmed_hash, activation_link, is_activation, last_seen
+        const sql = `SELECT id, email, avatar, password, fullname, is_admin, confirmed,confirmed_hash, activation_link, is_activation, last_seen
                      FROM users
                      WHERE email = $1
                        AND deleted_at is null`
@@ -25,7 +25,7 @@ class UserService {
     }
 
     async findUserById(id) {
-        const sql = `SELECT id, email, avatar, fullname, is_admin, confirmed,confirmed_hash, activation_link, is_activation, last_seen
+        const sql = `SELECT id, email, avatar, password, fullname, is_admin, confirmed,confirmed_hash, activation_link, is_activation, last_seen
                      FROM users
                      WHERE id = $1
                        AND deleted_at is null`
@@ -52,12 +52,10 @@ class UserService {
 
     async loginUser(req) {
         const {email, password} = req.body;
-        console.log(email, password)
         const user = await this.findUserByEmail(email)
         if (!user) {
             throw new UnauthorizedError('Неправильная почта или пароль')
         }
-
         const pass = await bcrypt.compare(password.toString(), user.password)
         if (!pass) {
             throw new UnauthorizedError('Неправильная почта или пароль')
@@ -106,15 +104,17 @@ class UserService {
         if (!refreshToken) {
             throw new UnauthorizedError('Необходима авторизация')
         }
-
         const userData = tokenService.validateRefreshToken(refreshToken)
-        const tokenFromDB = tokenService.findToken(refreshToken)
-        if(!userData || !tokenFromDB) {
+
+        const tokenFromDB = await tokenService.findToken(refreshToken)
+        if(!userData && !tokenFromDB) {
             throw new UnauthorizedError('Необходима авторизация')
         }
 
-        const user = this.findUserById(userData.id)
+        const user = await this.findUserById(userData.id)
+
         const userDto = new UserDto(user);
+
         const tokens = tokenService.generateToken({...userDto})
         await tokenService.saveToken(userDto.id, tokens.refreshToken);
 

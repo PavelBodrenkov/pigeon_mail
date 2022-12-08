@@ -8,10 +8,15 @@ require('dotenv').config()
 const PORT = process.env.PORT || 8080;
 
 const app = express()
-app.use(cookieParser());
-app.use(cors());
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(cors({
+    credentials:true,
+    origin:'http://localhost:3000'
+}));
+
 app.use('/api', indexRouter);
 app.use(errors());
 

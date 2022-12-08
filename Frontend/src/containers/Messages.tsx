@@ -11,8 +11,11 @@ const Messages: FC<any> = () => {
 
     const dispatch = useAppDispatch();
     const { currentDialog} = useAppSelector(state => state.dialogs)
+    const { messages } = useAppSelector(state => state.messages)
     const { items, isLoading, error} = useAppSelector(state => state.dialogs)
     const [filtered, setFiltered] = useState<dialogItem[]>(Array.from(items))
+
+    console.log('messages', messages)
 
     useEffect(() => {
         if(currentDialog > 0) {

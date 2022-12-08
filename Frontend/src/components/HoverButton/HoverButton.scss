@@ -1,0 +1,19 @@
+.hover-button {
+  padding: 7px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: 0.2s linear;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & .anticon-menu {
+    color: #595959;
+  }
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+}

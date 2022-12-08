@@ -6,14 +6,14 @@ import noReadedSvg from '../../assets/img/noreaded.svg';
 
 interface MessageStatusProps {
     isMe:boolean,
-    isReaded:boolean
+    isReaded:number
 }
 
 const MessageStatus:FC<MessageStatusProps> = ({isMe, isReaded}) => {
     return (
         <div>
             {isMe &&
-                (isReaded ? (
+                (isReaded > 0 ? (
                     <img
                         className={'message__icon-readed'}
                         src={readedSvg}

@@ -1,3 +1,31 @@
+.popover {
+  & .ant-popover-inner-content{
+    padding:0;
+  }
+  & .ant-popover-arrow {
+    display: none;
+  }
+
+  & .ant-popover-inner {
+      padding: 6px;
+  }
+}
+
+.setting-menu_block {
+  min-width: 200px;
+  &-blur {
+   li {
+     cursor: pointer;
+     padding:5px;
+     border-radius: 5px;
+
+     &:hover {
+       background-color: #f0f0f0;
+     }
+   }
+  }
+}
+
 .chat {
   display: flex;
   height: 100%;
@@ -9,19 +37,38 @@
   &__sidebar {
     width: 320px;
     border-right: 1px solid #f7f7f7;
+    position: relative;
+    overflow: hidden;
+
+    .ant-drawer-header {
+      padding:0px;
+    }
+
+    .ant-drawer-content-wrapper {
+      box-shadow: none;
+    }
 
     &-header {
       display: flex;
-      justify-content: space-between;
+      align-items: center;
+      //justify-content: space-between;
       padding: 21px;
       height: 58px;
       border-bottom: 1px solid #f7f7f7;
       margin-bottom: 20px;
 
-      & > div {
-        i {
-          display: inline-block;
-          margin-right: 5px;
+      &-setting_menu {
+        padding: 7px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: 0.2s linear;
+
+        & .anticon-menu {
+          color: #595959;
+        }
+
+        &:hover {
+          background-color: #f5f5f5;
         }
       }
     }

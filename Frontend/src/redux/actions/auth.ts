@@ -1,6 +1,8 @@
 import AuthApi from '@utils/api/auth';
 
 import {createAsyncThunk} from "@reduxjs/toolkit";
+import axios from "axios";
+import {AuthResponse} from "@utils/api/models/response/AuthResponse";
 
 interface loginProps {
     email:string,
@@ -16,10 +18,10 @@ interface registerProps {
 const fetchLogin = createAsyncThunk(
     'login/fetch',
     async (data:loginProps, thunkAPI) => {
-        console.log('data', data)
         try {
             const response = await AuthApi.login(data.email, data.password)
-            return response.data
+            localStorage.setItem('token', response.data.accessToken)
+            return response.data.user
         } catch (e) {
             return thunkAPI.rejectWithValue('Ошибка авторизации')
         }
@@ -29,19 +31,46 @@ const fetchLogin = createAsyncThunk(
 const fetchRegister = createAsyncThunk(
     'register/fetch',
     async (data:registerProps, thunkAPI) => {
-        console.log('data', data)
         try {
             const response = await AuthApi.registration(data.fullname, data.email, data.password)
-            return response.data
+            localStorage.setItem('token', response.data.accessToken)
+            return response.data.user
         } catch (e) {
             return thunkAPI.rejectWithValue('Ошибка регистрации')
         }
     }
 )
 
+const fetchLogout = createAsyncThunk(
+    'logout/fetch',
+    async (_, thunkAPI) => {
+        try {
+            const response = await AuthApi.logout()
+            localStorage.removeItem('token')
+            return response
+        } catch (e) {
+            return thunkAPI.rejectWithValue('Ошибка при выходе')
+        }
+    }
+)
 
+const fetchCheckAuth = createAsyncThunk(
+    'checkAuth/fetch',
+    async (_, thunkAPI) => {
+        try {
+            const response = await axios.get<AuthResponse>('http://localhost:8080/api/refresh', {withCredentials:true})
+            console.log('response', response)
+            localStorage.setItem('token', response.data.accessToken)
+            return response.data.user
+        } catch (e) {
+            return thunkAPI.rejectWithValue('Ошибка при выходе')
+        }
+    }
+)
 
 export default {
     fetchLogin,
-    fetchRegister
+    fetchRegister,
+    fetchLogout,
+    fetchCheckAuth
 }

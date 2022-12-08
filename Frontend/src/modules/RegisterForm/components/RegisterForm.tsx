@@ -1,5 +1,5 @@
-import React from 'react';
-import {Form, Input} from "antd";
+import React, {useState} from 'react';
+import {Alert, Form, Input} from "antd";
 import {LockOutlined, UserOutlined, MailOutlined, ExclamationCircleTwoTone} from "@ant-design/icons";
 import {Button, Block} from "@components/index";
 import {Link} from "react-router-dom";
@@ -7,15 +7,18 @@ import {auth} from "@redux/actions";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 
 const RegisterForm = () => {
+    const [validationConfirm, setValidationConfirm] = useState<any>('success')
     const dispatch = useAppDispatch();
-    const { user, isLoading, error} = useAppSelector(state => state.users)
+    const { isLoadingRegister, errorRegister } = useAppSelector(state => state.users)
+
     const success = false
 
-    console.log('user', user)
-
     const onRegisterSubmit = (values: any) => {
-        dispatch(auth.fetchRegister(values))
-        console.log('Received values of form: ', values);
+        if(values.password === values.confirmpassword) {
+            dispatch(auth.fetchRegister(values))
+        } else {
+            setValidationConfirm('error')
+        }
     };
 
     return (
@@ -25,6 +28,16 @@ const RegisterForm = () => {
                 <p>Для входа в чат, вам нужно зарегистрироваться</p>
             </div>
             <Block>
+                {errorRegister && (
+                    <div className={'alert'}>
+                        <Alert
+                            message="Ошибка регистрации"
+                            type="error"
+                            description='Попробуйте позднее или обратитесь в поддержку'
+                            showIcon
+                        />
+                    </div>
+                )}
                 {!success ? (
                     <Form
                         autoComplete="off"
@@ -72,7 +85,9 @@ const RegisterForm = () => {
                         </Form.Item>
                         <Form.Item
                             name="confirmpassword"
+                            validateStatus={validationConfirm}
                             rules={[{required: true, message: 'Обязательное поле'}]}
+                            help={validationConfirm === 'error' ? "Пароли е совпадают" : ''}
                         >
                             <Input.Password
                                 prefix={<LockOutlined className="site-form-item-icon"/>}
@@ -81,7 +96,12 @@ const RegisterForm = () => {
                                 type={'password'}/>
                         </Form.Item>
                         <Form.Item>
-                            <Button type={'primary'} size={'large'} htmlType="submit">
+                            <Button
+                                type={'primary'}
+                                size={'large'}
+                                htmlType="submit"
+                                loading={isLoadingRegister}
+                            >
                                 Зарегистрироваться
                             </Button>
                         </Form.Item>

@@ -16,7 +16,7 @@ interface MessageProps {
     date: string,
     user: any,
     isMe?: boolean,
-    isReaded?: boolean,
+    isReaded?: number,
     attachments?: {
         id:number,
         filename: string,
@@ -31,7 +31,7 @@ const Message: FC<MessageProps> = ({
                                        text,
                                        date,
                                        isMe = false,
-                                       isReaded = false,
+                                       isReaded = 0,
                                        attachments,
                                        isTyping = false
                                    }) => {
