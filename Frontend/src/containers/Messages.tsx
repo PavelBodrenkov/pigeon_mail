@@ -11,9 +11,9 @@ const Messages: FC<any> = () => {
 
     const dispatch = useAppDispatch();
     const { currentDialog} = useAppSelector(state => state.dialogs)
-    const { messages } = useAppSelector(state => state.messages)
-    const { items, isLoading, error} = useAppSelector(state => state.dialogs)
-    const [filtered, setFiltered] = useState<dialogItem[]>(Array.from(items))
+    const { messages, isLoading, error } = useAppSelector(state => state.messages)
+    // const { items, isLoading, error} = useAppSelector(state => state.dialogs)
+    // const [filtered, setFiltered] = useState<dialogItem[]>(Array.from(items))
 
     console.log('messages', messages)
 
@@ -38,15 +38,19 @@ const Messages: FC<any> = () => {
                 </div>
             }
             {error && <Alert message={error} type="error" />}
-            {!error && !isLoading && (items.length !== 0 && currentDialog > 0 ?
-                    <BaseMessages
-                        items={items}
-                    />
-                    :
-                    <b>Выберите диалог</b>
-                )
+            {/*{!error && !isLoading && (items.length !== 0 && currentDialog > 0 ?*/}
+            {/*        <BaseMessages*/}
+            {/*            items={items}*/}
+            {/*        />*/}
+            {/*        :*/}
+            {/*        <b>Выберите диалог</b>*/}
+            {/*    )*/}
 
-            }
+            {/*}*/}
+                    <BaseMessages
+                        items={messages}
+                    />
+                {/*)*/}
         </>
     );
 };

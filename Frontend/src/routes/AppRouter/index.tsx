@@ -22,6 +22,14 @@ const AppRouter = () => {
                         </PrivateRoute>
                     }
                 />
+                <Route
+                    path={HOME + '/:id'}
+                    element={
+                        <PrivateRoute>
+                            <Home/>
+                        </PrivateRoute>
+                    }
+                />
                 <Route path={LOGIN} element={
                     <GuestRoute>
                         <Auth type={LOGIN}/>

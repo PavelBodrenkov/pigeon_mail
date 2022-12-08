@@ -3,18 +3,17 @@ const db = require('../db');
 class DialogService {
 
     async getAllDialogsByUser(req) {
-        const {id} = req.user
-        console.log('id', id)
+        const userId = req.user.id
         const sql =
             `
             SELECT U.id as userId, U.fullname, U.avatar, C.id as convId, C.sender, C.unread, M.message, M.date
             FROM users as U, conversation as C
                 LEFT JOIN messages as M ON(C.last_message_id = M.id)
-            WHERE (C.first = ${id} OR C.second = ${id})
+            WHERE (C.first = ${userId} OR C.second = ${userId})
             AND CASE
-                WHEN C.first = ${id}
+                WHEN C.first = ${userId}
                     THEN C.second = U.id AND C.first_delete = 0
-                WHEN C.second = ${id}
+                WHEN C.second = ${userId}
                     THEN C.first = U.id AND C.second_delete = 0
                 END 
             ORDER BY C.unread DESC

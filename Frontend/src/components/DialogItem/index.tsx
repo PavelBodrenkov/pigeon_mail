@@ -7,6 +7,7 @@ import format from 'date-fns/format'
 import './DialogItem.scss';
 import {useAppDispatch} from "../../hooks/redux";
 import {setCurrentDialog} from "@redux/reducers/dialogs";
+import {Link} from "react-router-dom";
 
 const DialogItem: FC<any> = ({
                                  fullname,
@@ -53,6 +54,7 @@ const DialogItem: FC<any> = ({
             )}
             onClick={() => dispatch(setCurrentDialog(sender))}
         >
+            <Link to={`/${sender}`}>Перейти</Link>
             <div className={'dialogs__item--avatar'}>
                 {getAvatar(avatar)}
             </div>

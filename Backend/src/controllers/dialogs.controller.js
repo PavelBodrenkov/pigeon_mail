@@ -6,7 +6,7 @@ class DialogsController {
            const dialog = await dialogService.createDialog(req)
            res.json(dialog)
        } catch (e) {
-           console.log(e)
+           console.log('Ошибка диалога',e)
        }
     }
 
@@ -15,7 +15,7 @@ class DialogsController {
            const dialogs = await dialogService.getAllDialogsByUser(req)
            res.json(dialogs)
        } catch (e) {
-           console.log(e)
+           console.log('Ошибка диалога',e)
        }
     }
 

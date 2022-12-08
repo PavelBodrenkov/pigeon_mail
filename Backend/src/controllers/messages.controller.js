@@ -7,7 +7,7 @@ class MessagesController {
             const messages = await messagesService.getMessagesByDialog(req)
             return  res.json(messages)
         } catch (e) {
-            console.log(e)
+            console.log('Ошибка сообщения',e)
         }
     }
 }

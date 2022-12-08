@@ -3,6 +3,6 @@ const router = new Router();
 const messageController = require("./../controllers/messages.controller");
 
 
-router.get('/', messageController.getMessagesByDialog)
+router.get('/:id', messageController.getMessagesByDialog)
 
 module.exports = router
