@@ -1,58 +1,47 @@
-import React, {FC, useEffect, useState} from 'react';
-import {dialogItem, dialogProps} from "../types/dialogTypes";
+import React, {FC, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../hooks/redux";
-import {fetchMessages} from "@redux/actions";
+import {messagesAction} from "@redux/actions";
 import {Spinner} from '@components/Spinner';
-import {Alert} from "antd";
+import {Alert, Empty} from "antd";
 
 import {Messages as BaseMessages} from '@components/index'
 
 const Messages: FC<any> = () => {
 
     const dispatch = useAppDispatch();
-    const { currentDialog} = useAppSelector(state => state.dialogs)
-    const { messages, isLoading, error } = useAppSelector(state => state.messages)
-    // const { items, isLoading, error} = useAppSelector(state => state.dialogs)
-    // const [filtered, setFiltered] = useState<dialogItem[]>(Array.from(items))
-
-    console.log('messages', messages)
+    const {currentDialog} = useAppSelector(state => state.dialogs)
+    const {messages, isLoading, error} = useAppSelector(state => state.messages)
 
     useEffect(() => {
-        if(currentDialog > 0) {
-            dispatch(fetchMessages(currentDialog))
+        if (currentDialog > 0) {
+            dispatch(messagesAction.fetchMessages(currentDialog))
         }
     }, [currentDialog])
-
-    // const onChangeInput = (value: string) => {
-    //     setFiltered(
-    //         items.filter((dialog: dialogItem) => dialog.user.fullname.toLowerCase().indexOf(value.toLowerCase()) > 0)
-    //     )
-    //     setInputValue(value)
-    // }
 
     return (
         <>
             {isLoading &&
-                <div style={{position: 'relative', width: '100%', height:50}}>
+                <div style={{position: 'relative', width: '100%', height: 50}}>
                     <Spinner text={'Загрузка диалогов...'} textSize={15} center={true}/>
                 </div>
             }
-            {error && <Alert message={error} type="error" />}
-            {/*{!error && !isLoading && (items.length !== 0 && currentDialog > 0 ?*/}
-            {/*        <BaseMessages*/}
-            {/*            items={items}*/}
-            {/*        />*/}
-            {/*        :*/}
-            {/*        <b>Выберите диалог</b>*/}
-            {/*    )*/}
-
-            {/*}*/}
+            {error && <Alert message={error} type="error"/>}
+            {!error && !isLoading && (
+                messages.length !== 0 ?
                     <BaseMessages
                         items={messages}
                     />
-                {/*)*/}
+                    :
+                    <Empty description={
+                        <span>
+                             Нет сообщений
+                        </span>
+                    }/>
+            )
+            }
         </>
     );
+
 };
 
 export default Messages;

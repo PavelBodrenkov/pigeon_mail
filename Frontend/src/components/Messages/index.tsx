@@ -9,9 +9,11 @@ const Messages = ({items}) => {
     return items ? (
             <div>
                 {items.map((m) => {
-                    const {avatar, date, fullname, message, sender} = m
+                    console.log('m', m)
+                    const {avatar, date, fullname, message, sender, id} = m
                     return (
                         <Message
+                            key={id}
                             avatar={avatar}
                             date={date}
                             fullname={fullname}

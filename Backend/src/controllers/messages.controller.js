@@ -10,6 +10,15 @@ class MessagesController {
             console.log('Ошибка сообщения',e)
         }
     }
+
+    async createMessage(req, res) {
+        try {
+            const messages = await messagesService.createMessage(req)
+            return  res.json(messages)
+        } catch (e) {
+            console.log('Ошибка сообщения',e)
+        }
+    }
 }
 
 module.exports = new MessagesController()

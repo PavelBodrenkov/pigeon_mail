@@ -4,17 +4,20 @@ class MessageService {
 
     async getMessagesByDialog(req) {
         const userId = req.user.id
-        const partnerId = req.params.id
+        const convId = req.params.id
 
-        if (userId !== partnerId) {
-            const sql = `
-                SELECT id, unread
-                FROM conversation
-                WHERE (first = ${userId} AND second = ${partnerId})
-                   OR (first = ${partnerId} AND second = ${userId})`
+        // if (userId !== partnerId) {
+            // const sql = `
+            //     SELECT id, unread
+            //     FROM conversation
+            //     WHERE (first = ${userId} AND second = ${partnerId})
+            //        OR (first = ${partnerId} AND second = ${userId})`
+            const sql = `SELECT id, unread FROM conversation WHERE id = ${convId}`
+
             const row_conversation = await db.query(sql)
+            // console.log('row_conversation', row_conversation)
             if (row_conversation.rows.length === 0) {
-                return row_conversation.rows
+                console.log('нет диалогов')
             } else {
                 const sql = `SELECT M.id, M.date, M.message, M.sender, U.avatar, U.fullname
                              FROM messages as M
@@ -41,9 +44,33 @@ class MessageService {
                 }
                 return result.rows
             }
-        }
+        // }
     }
 
+    async createMessage(req) {
+        const {conv_id, message, partner} = req.body
+        const {id} = req.user
+        //Создаем сообщение
+        const messageSQL = `INSERT INTO messages (conv_id, sender, addressee, readed, sender_delete,
+                                                      addressee_delete, message, date)
+                                VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`
+        const row_messages = await db.query(messageSQL, [conv_id, id, partner, 0, 0, 0, message, new Date()])
+
+        //обновляем таблицу с диалогами
+        const updateConversationSQL = `
+                UPDATE conversation
+                SET last_message_id = ${row_messages.rows[0].id},
+                    sender          = ${id},
+                    unread          = (SELECT COUNT(*)
+                                       FROM messages as M
+                                       WHERE M.conv_id = ${conv_id}
+                                         AND M.readed = 0
+                                         AND M.sender = ${id})
+                WHERE id = ${conv_id} RETURNING *
+            `
+         await db.query(updateConversationSQL);
+        return row_messages.rows[0]
+    }
 }
 
 module.exports = new MessageService();

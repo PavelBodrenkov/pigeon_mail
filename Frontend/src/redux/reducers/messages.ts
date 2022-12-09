@@ -1,6 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {dialogItem} from '../../types/dialogTypes';
-import {fetchMessages} from "@redux/actions";
+import {messagesAction} from "@redux/actions";
 
 interface initialState {
     messages:any[],
@@ -20,18 +19,30 @@ const messagesSlice = createSlice( {
     reducers: {
     },
     extraReducers: {
-        [fetchMessages.fulfilled.type]: (state, action) => {
+        [messagesAction.fetchMessages.fulfilled.type]: (state, action) => {
             state.isLoading = false;
             state.error = '';
             state.messages = action.payload
         },
-        [fetchMessages.pending.type]: (state) => {
+        [messagesAction.fetchMessages.pending.type]: (state) => {
             state.isLoading = true
         },
-        [fetchMessages.rejected.type]: (state, action:PayloadAction<string>) => {
+        [messagesAction.fetchMessages.rejected.type]: (state, action:PayloadAction<string>) => {
             state.isLoading = false;
             state.error = action.payload
-        }
+        },
+        [messagesAction.sendMessage.fulfilled.type]:(state, action) => {
+            state.messages.push(action.payload)
+            state.isLoading = false;
+            state.error = '';
+        },
+        [messagesAction.sendMessage.pending.type]: (state) => {
+            state.isLoading = true
+        },
+        [messagesAction.sendMessage.rejected.type]: (state, action:PayloadAction<string>) => {
+            state.isLoading = false;
+            state.error = action.payload
+        },
     }
 })
 

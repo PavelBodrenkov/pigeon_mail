@@ -1,23 +1,32 @@
 import React, {FC, useState} from 'react';
-import {Button, Popover} from "antd";
-import {MenuOutlined} from "@ant-design/icons";
+import {Button, Drawer, Image, Popover} from "antd";
+import {ArrowLeftOutlined, MenuOutlined} from "@ant-design/icons";
 import {HoverButton} from "@components/index";
+import {useAppDispatch} from "../../hooks/redux";
+import {auth} from "@redux/actions";
 
-interface SidebarHeaderProps {
-    openDrawer:() => void
-}
 
-const SidebarHeader:FC<SidebarHeaderProps> = ({openDrawer}) => {
-    const [visible, setVisible] = useState(false);
 
-    const OpenSettings = () => {
-        openDrawer()
-        setVisible(false)
+const SidebarHeader:FC<any> = () => {
+    const dispatch = useAppDispatch();
+    const [openPopover, setOpenPopover] = useState(false);
+    const [openDrawer, setOpenDrawer] = useState(false)
+
+    const logout = () => {
+        dispatch(auth.fetchLogout())
     }
 
-    const handleVisibleChange = (newVisible: boolean) => {
-        console.log(newVisible)
-        setVisible(newVisible);
+    const onCloseDrawer = () => {
+        setOpenDrawer(false);
+    };
+
+    const OpenSettings = () => {
+        setOpenDrawer(true);
+        setOpenPopover(false)
+    }
+
+    const handleVisiblePopover = (newVisible: boolean) => {
+        setOpenPopover(newVisible);
     };
 
     const content = (
@@ -26,19 +35,47 @@ const SidebarHeader:FC<SidebarHeaderProps> = ({openDrawer}) => {
                 <li onClick={OpenSettings}>Настроки</li>
             </ul>
         </div>
-
     );
 
     return (
         <div className={'chat__sidebar-header'}>
+            <Drawer
+                title={
+                    <div
+                        className={'chat__sidebar-header'}
+                        style={{marginBottom: 0, borderBottom: 0, height: 57}}
+                    >
+                        <HoverButton onClick={onCloseDrawer}>
+                            <ArrowLeftOutlined/>
+                        </HoverButton>
+                        <span>Настройки</span>
+                    </div>
+                }
+                placement="left"
+                closable={false}
+                onClose={onCloseDrawer}
+                open={openDrawer}
+                getContainer={false}
+                width={319}
+                style={{boxShadow: 'none'}}
+            >
+                <div>
+                    <Image
+                        // src={'https://funart.pro/uploads/posts/2021-04/1617458799_2-p-oboi-zakat-zimoi-2.jpg'}
+                        src="error"
+                        fallback={'https://funart.pro/uploads/posts/2021-04/1617458799_2-p-oboi-zakat-zimoi-2.jpg'}
+                    />
+                    <button onClick={logout}>Выход</button>
+                </div>
+            </Drawer>
             <Popover
                 content={content}
                 title={false}
                 trigger="click"
-                open={visible}
+                open={openPopover}
                 placement="bottomLeft"
                 overlayClassName={'popover'}
-                onOpenChange={handleVisibleChange}
+                onOpenChange={handleVisiblePopover}
             >
                 <div>
                     <HoverButton>
@@ -46,12 +83,6 @@ const SidebarHeader:FC<SidebarHeaderProps> = ({openDrawer}) => {
                     </HoverButton>
                 </div>
             </Popover>
-            {/*<div>*/}
-            {/*    <TeamOutlined/>*/}
-            {/*    <span>Список диалогов</span>*/}
-            {/*</div>*/}
-            {/*/!*<FormOutlined/>*!/*/}
-            {/*<button onClick={() => onOpen()}>назад</button>*/}
         </div>
     );
 };

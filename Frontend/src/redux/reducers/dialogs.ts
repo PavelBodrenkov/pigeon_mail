@@ -5,6 +5,7 @@ import {fetchDialogs} from "@redux/actions";
 interface initialState {
     items:dialogItem[],
     currentDialog:number,
+    partner:number,
     isLoading:boolean,
     error:string
 }
@@ -12,6 +13,7 @@ interface initialState {
 const initialState:initialState = {
     items:[],
     currentDialog:0,
+    partner:0,
     isLoading:false,
     error:''
 }
@@ -22,6 +24,9 @@ const dialogsSlice = createSlice( {
     reducers: {
         setCurrentDialog(state, action) {
             state.currentDialog = action.payload
+        },
+        setPartner(state, action) {
+            state.partner = action.payload
         }
     },
     extraReducers: {
@@ -41,4 +46,4 @@ const dialogsSlice = createSlice( {
 })
 
 export default dialogsSlice.reducer
-export const {setCurrentDialog} = dialogsSlice.actions
+export const {setCurrentDialog, setPartner} = dialogsSlice.actions

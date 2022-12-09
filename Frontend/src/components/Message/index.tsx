@@ -26,7 +26,7 @@ interface MessageProps {
 }
 
 const Message: FC<any> = ({
-                              avatar, date, fullname, message, isMe, isTyping = false
+                              avatar, date, fullname, message, isMe, isTyping = false, currentDialog
                           }) => {
 
     return (
