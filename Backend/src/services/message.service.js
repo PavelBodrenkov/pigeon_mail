@@ -4,18 +4,19 @@ class MessageService {
 
     async getMessagesByDialog(req) {
         const userId = req.user.id
-        const convId = req.params.id
+        const partnerId = req.params.id
 
-        // if (userId !== partnerId) {
-            // const sql = `
-            //     SELECT id, unread
-            //     FROM conversation
-            //     WHERE (first = ${userId} AND second = ${partnerId})
-            //        OR (first = ${partnerId} AND second = ${userId})`
-            const sql = `SELECT id, unread FROM conversation WHERE id = ${convId}`
+        console.log(userId, partnerId)
+
+        if (userId !== partnerId) {
+            const sql = `
+                SELECT id, unread
+                FROM conversation
+                WHERE (first = ${userId} AND second = ${partnerId})
+                   OR (first = ${partnerId} AND second = ${userId})`
 
             const row_conversation = await db.query(sql)
-            // console.log('row_conversation', row_conversation)
+
             if (row_conversation.rows.length === 0) {
                 console.log('нет диалогов')
             } else {
@@ -27,13 +28,14 @@ class MessageService {
                                AND
                                  CASE
                                  WHEN M.sender = ${userId}
-                                 THEN M.sender_delete = 0
+                                    THEN M.sender_delete = 0
                                  WHEN M.addressee = ${userId}
-                                 THEN M.addressee_delete = 0
-                END
-                ORDER BY id ASC`
-                const result = await db.query(sql)
+                                    THEN M.addressee_delete = 0
+                                END
+                                ORDER BY id ASC`
+                            const result = await db.query(sql)
 
+                console.log(result.rows)
                 if (row_conversation.rows[0]?.unread !== 0) {
                     await db.query(`UPDATE messages
                                     SET readed = 1
@@ -44,7 +46,7 @@ class MessageService {
                 }
                 return result.rows
             }
-        // }
+        }
     }
 
     async createMessage(req) {
@@ -55,6 +57,13 @@ class MessageService {
                                                       addressee_delete, message, date)
                                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`
         const row_messages = await db.query(messageSQL, [conv_id, id, partner, 0, 0, 0, message, new Date()])
+
+        //Получаем нужное сообщение
+        const returnMessage = `SELECT M.id, M.date, M.message, M.sender, U.avatar, U.fullname 
+                                FROM messages as M
+                                LEFT JOIN users as U ON (U.id = M.sender)
+                                WHERE M.id = ${row_messages.rows[0].id}`
+        const result = await db.query(returnMessage)
 
         //обновляем таблицу с диалогами
         const updateConversationSQL = `
@@ -69,7 +78,7 @@ class MessageService {
                 WHERE id = ${conv_id} RETURNING *
             `
          await db.query(updateConversationSQL);
-        return row_messages.rows[0]
+        return result.rows[0]
     }
 }
 

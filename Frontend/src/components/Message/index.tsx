@@ -26,7 +26,7 @@ interface MessageProps {
 }
 
 const Message: FC<any> = ({
-                              avatar, date, fullname, message, isMe, isTyping = false, currentDialog
+                              avatar, date, message, isMe, isTyping = false
                           }) => {
 
     return (
@@ -56,16 +56,17 @@ const Message: FC<any> = ({
                             </div>
                         )
                     }
-                    <div className={'message__attachments'}>
-                        {/*{attachments && attachments.map((photo: { filename: string, url: string, id: number }) => {*/}
-                        {/*    const {filename, url, id} = photo*/}
-                        {/*    return (*/}
-                        {/*        <div className={'message__attachments-item'} key={id}>*/}
-                        {/*            <img src={url} alt={filename}/>*/}
-                        {/*        </div>*/}
-                        {/*    )*/}
-                        {/*})}*/}
-                    </div>
+
+                    {/*<div className={'message__attachments'}>*/}
+                    {/*    /!*{attachments && attachments.map((photo: { filename: string, url: string, id: number }) => {*!/*/}
+                    {/*    /!*    const {filename, url, id} = photo*!/*/}
+                    {/*    /!*    return (*!/*/}
+                    {/*    /!*        <div className={'message__attachments-item'} key={id}>*!/*/}
+                    {/*    /!*            <img src={url} alt={filename}/>*!/*/}
+                    {/*    /!*        </div>*!/*/}
+                    {/*    /!*    )*!/*/}
+                    {/*    /!*})}*!/*/}
+                    {/*</div>*/}
                     {date && <span className={'message__date'}>
                         <Time date={date}/>
                     </span>}

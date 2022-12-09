@@ -5,15 +5,13 @@ import {useAppSelector} from "../hooks/redux";
 
 const Status = () => {
 
-    const {items, currentDialog} = useAppSelector(state => state.dialogs)
+    const {dialogs, currentDialog} = useAppSelector(state => state.dialogs)
 
-    if (!items.length || !currentDialog) {
+    if (!dialogs.length || !currentDialog) {
         return null;
     }
 
-    const currentDialogObj:any = items.find((dialog:any) => dialog.convid == currentDialog)
-
-    return <BaseStatus online={true} fullname={currentDialogObj?.fullname} />
+    return <BaseStatus online={true} fullname={currentDialog?.fullname} />
 };
 
 export default Status;

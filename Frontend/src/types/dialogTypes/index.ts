@@ -1,15 +1,12 @@
 export interface dialogItem {
-    id: number,
-    text: string,
-    isReaded: boolean,
-    created_at: Date,
-    user: {
-        id: number,
-        isOnline: boolean,
-        fullname: string,
-        avatar: string
-    },
-    unreaded: number
+    userid: number,
+    fullname: string,
+    avatar: null | string,
+    convid: number,
+    sender: number,
+    unread: number,
+    message: string,
+    date: string
 }
 
 export interface dialogProps {

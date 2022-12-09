@@ -1,6 +1,9 @@
 .chat-input {
-  margin: 20px;
+  padding: 20px;
   position: relative;
+  width: 60%;
+  margin: 0 auto;
+  //background-color: white;
   &__smile-btn, &__actions {
     position: absolute;
     z-index: 1;
@@ -14,7 +17,6 @@
     &:hover {
       opacity: .8;
     }
-
   }
 
   //.ant-btn-circle {

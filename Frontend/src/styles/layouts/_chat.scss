@@ -1,28 +1,39 @@
+@import '../variables';
+
 .popover {
-  & .ant-popover-inner-content{
-    padding:0;
+  & .ant-popover-inner-content {
+    padding: 0;
   }
+
   & .ant-popover-arrow {
     display: none;
   }
 
   & .ant-popover-inner {
-      padding: 6px;
+    padding: 6px;
+    //background-color: rgba(255,255,255,0.733333);
+    //backdrop-filter: blur(10px);
+    background-color: #434343;
   }
 }
 
 .setting-menu_block {
   min-width: 200px;
-  &-blur {
-   li {
-     cursor: pointer;
-     padding:5px;
-     border-radius: 5px;
+  background: none;
 
-     &:hover {
-       background-color: #f0f0f0;
-     }
-   }
+  &-blur {
+    li {
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 5px;
+      color: #bfbfbf;
+      transition: 0.1s linear;
+
+      &:hover {
+        background-color: rgba(17%, 16%, 16%, 1);
+        //backdrop-filter: blur(45px);
+      }
+    }
   }
 }
 
@@ -30,18 +41,19 @@
   display: flex;
   height: 100%;
   background-color: #fff;
-  max-width: 1140px;
-  margin: 0 auto;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.04204);
+  //max-width: 1140px;
+  //margin: 0 auto;
+  //box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
   &__sidebar {
-    width: 320px;
-    border-right: 1px solid #f7f7f7;
+    width: 25%;
+    border-right: 1px solid #262626;
     position: relative;
     overflow: hidden;
+    background-color: $current_color;
 
     .ant-drawer-header {
-      padding:0px;
+      padding: 0px;
     }
 
     .ant-drawer-content-wrapper {
@@ -51,11 +63,19 @@
     &-header {
       display: flex;
       align-items: center;
-      //justify-content: space-between;
+      justify-content: space-between;
       padding: 21px;
       height: 58px;
-      border-bottom: 1px solid #f7f7f7;
+      border-bottom: 1px solid #262626;
       margin-bottom: 20px;
+
+      span {
+        color: #595959;
+      }
+
+      .ant-drawer-content {
+        background-color: $current_color;
+      }
 
       &-setting_menu {
         padding: 7px;
@@ -76,26 +96,49 @@
     &-search {
       padding: 0 20px 20px 20px;
 
+      .ant-input-affix-wrapper {
+        background-color: #262626;
+        border: 0;
+      }
+
+      .ant-input-prefix {
+        color: #bfbfbf;
+      }
+
       .ant-input {
         border: 0;
-        height: 38px;
+        height: 28px;
         padding: 4px 11px 6px;
+        background-color: #262626;
+
+        &::placeholder {
+          color: #bfbfbf;
+        }
       }
     }
 
     &-dialogs {
       height: calc(100% - 146px);
+
+      & a {
+        text-decoration: none;
+      }
+
       .dialogs {
         height: 100%;
         overflow: auto;
+
         &__item {
           padding: 10px 20px;
           margin-bottom: 0;
           transition: 0.1s;
           cursor: pointer;
+          border-top: 1px solid #262626;
+          border-bottom: 1px solid #262626;
+          //background-color: #434343;
           &.active,
           &:hover {
-            background-color: #f0f0f0;
+            background-color: #262626;
           }
         }
       }
@@ -105,13 +148,15 @@
 
   &__dialog {
     flex: 1;
+    background-color: #252325;
 
     &-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding:12px;
-      border-bottom: 1px solid #f7f7f7;
+      padding: 12px;
+      border-bottom: 1px solid #262626;
+      background-color: $current_color;
 
       &-center {
         text-align: center;
@@ -121,9 +166,12 @@
         font-weight: 500;
         display: block;
         margin-bottom: 5px;
+        color: #bfbfbf;
       }
     }
+
     &-messages {
+      //box-shadow: rgba(50, 50, 93, 0.25) 0px 5px 30px -12px inset, rgba(0, 0, 0, 0.3) 0px 10px 16px -18px inset;
       padding: 20px 20px 0 20px;
       //background-color: #d9f7be;
       height: calc(100% - 138px);

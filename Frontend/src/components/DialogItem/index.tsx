@@ -1,12 +1,7 @@
 import React, {FC} from 'react';
-import {Avatar} from "antd";
 import classNames from "classnames";
 import {MessageStatus} from "@components/index"
-import isToday from 'date-fns/isToday'
-import format from 'date-fns/format'
 import './DialogItem.scss';
-import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import {setCurrentDialog, setPartner} from "@redux/reducers/dialogs";
 import {Link} from "react-router-dom";
 
 const DialogItem: FC<any> = ({

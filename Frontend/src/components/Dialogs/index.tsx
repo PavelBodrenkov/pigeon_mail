@@ -1,12 +1,9 @@
 import React, {FC} from 'react';
-import './Dialogs.scss'
 import {DialogItem} from "@components/index";
-import sortBy from 'lodash/sortBy'
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import isToday from "date-fns/isToday";
 import format from "date-fns/format";
 import {Avatar} from "antd";
-import {setCurrentDialog, setPartner} from "@redux/reducers/dialogs";
 
 const Dialogs: FC<any> = ({items}) => {
 

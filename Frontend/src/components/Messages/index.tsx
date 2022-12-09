@@ -7,9 +7,14 @@ const Messages = ({items}) => {
     const { user } = useAppSelector(state => state.users)
 
     return items ? (
-            <div>
+            <div
+                style={{
+                maxWidth: '60%',
+                    margin:'0 auto'
+            }}
+                // ref={blockRef}
+            >
                 {items.map((m) => {
-                    console.log('m', m)
                     const {avatar, date, fullname, message, sender, id} = m
                     return (
                         <Message

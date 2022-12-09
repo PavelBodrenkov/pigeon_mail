@@ -59,7 +59,6 @@ const fetchCheckAuth = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await axios.get<AuthResponse>('http://localhost:8080/api/refresh', {withCredentials:true})
-            console.log('response', response)
             localStorage.setItem('token', response.data.accessToken)
             return response.data.user
         } catch (e) {

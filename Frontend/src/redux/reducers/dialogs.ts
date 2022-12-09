@@ -3,16 +3,16 @@ import {dialogItem} from '../../types/dialogTypes';
 import {fetchDialogs} from "@redux/actions";
 
 interface initialState {
-    items:dialogItem[],
-    currentDialog:number,
+    dialogs:dialogItem[],
+    currentDialog:dialogItem,
     partner:number,
     isLoading:boolean,
     error:string
 }
 
 const initialState:initialState = {
-    items:[],
-    currentDialog:0,
+    dialogs:[],
+    currentDialog:{} as dialogItem,
     partner:0,
     isLoading:false,
     error:''
@@ -25,15 +25,12 @@ const dialogsSlice = createSlice( {
         setCurrentDialog(state, action) {
             state.currentDialog = action.payload
         },
-        setPartner(state, action) {
-            state.partner = action.payload
-        }
     },
     extraReducers: {
         [fetchDialogs.fulfilled.type]: (state, action:PayloadAction<dialogItem[]>) => {
             state.isLoading = false;
             state.error = '';
-            state.items = action.payload
+            state.dialogs = action.payload
         },
         [fetchDialogs.pending.type]: (state) => {
             state.isLoading = true
@@ -46,4 +43,4 @@ const dialogsSlice = createSlice( {
 })
 
 export default dialogsSlice.reducer
-export const {setCurrentDialog, setPartner} = dialogsSlice.actions
+export const {setCurrentDialog} = dialogsSlice.actions

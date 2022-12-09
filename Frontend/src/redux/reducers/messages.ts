@@ -3,48 +3,53 @@ import {messagesAction} from "@redux/actions";
 
 interface initialState {
     messages:any[],
-    isLoading:boolean,
+    isLoadingMessage:boolean,
+    isLoadingSaveMessage:boolean,
     error:string
 }
 
 const initialState:initialState = {
     messages:[],
-    isLoading:false,
+    isLoadingMessage:false,
+    isLoadingSaveMessage:false,
     error:''
 }
 
 const messagesSlice = createSlice( {
-    name:'dialogs',
+    name:'messages',
     initialState,
     reducers: {
+        setMessages(state, action) {
+            state.messages.push(action.payload)
+        }
     },
     extraReducers: {
         [messagesAction.fetchMessages.fulfilled.type]: (state, action) => {
-            state.isLoading = false;
+            state.isLoadingMessage = false;
             state.error = '';
             state.messages = action.payload
         },
         [messagesAction.fetchMessages.pending.type]: (state) => {
-            state.isLoading = true
+            state.isLoadingMessage = true
         },
         [messagesAction.fetchMessages.rejected.type]: (state, action:PayloadAction<string>) => {
-            state.isLoading = false;
+            state.isLoadingMessage = false;
             state.error = action.payload
         },
         [messagesAction.sendMessage.fulfilled.type]:(state, action) => {
             state.messages.push(action.payload)
-            state.isLoading = false;
+            state.isLoadingSaveMessage = false;
             state.error = '';
         },
         [messagesAction.sendMessage.pending.type]: (state) => {
-            state.isLoading = true
+            state.isLoadingSaveMessage = true
         },
         [messagesAction.sendMessage.rejected.type]: (state, action:PayloadAction<string>) => {
-            state.isLoading = false;
+            state.isLoadingSaveMessage = false;
             state.error = action.payload
         },
     }
 })
 
 export default messagesSlice.reducer
-// export const {setCurrentDialog} = messagesSlice.actions
+export const {setMessages} = messagesSlice.actions

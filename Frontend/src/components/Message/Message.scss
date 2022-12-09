@@ -24,20 +24,20 @@
       margin-right: 13px;
       margin-bottom: 23px;
     }
-
   }
 
   &__bubble {
-    background-color: $blue;
-    box-shadow: 0 5px 5px rgba(54, 116, 255, 0.196733);
+    background-color: #434343;
+    //box-shadow: 0 5px 5px rgba(54, 116, 255, 0.196733);
     border-radius: 12px 12px 12px 0;
-    padding: 15px;
-    margin-bottom: 8px;
+    padding: 5px 8px 5px 8px;
+    margin-bottom: 5px;
   }
 
   &__date {
     font-size: 12px;
-    opacity: 0.4;
+    opacity: 1;
+    color: $message-typing-blue;
   }
 
   &__text {
@@ -87,13 +87,13 @@
       }
     }
 
-    #{$self}__buble {
-      background-color: #fff;
-      border: 1px solid #ececec;
+      #{$self}__bubble {
+      background-color: #9254de;
+      border: 1px solid #9254de;
       box-shadow: 0 4px 4px rgba(0, 0, 0, 0.0220444);
 
       #{$self}__text {
-        color: $black;
+        color: $message-typing-blue;
       }
     }
   }

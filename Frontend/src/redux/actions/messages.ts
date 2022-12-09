@@ -14,7 +14,6 @@ const fetchMessages = createAsyncThunk(
     async (id:number, thunkAPI) => {
         try {
             const response = await MessagesApi.getMessages(id)
-            console.log('response', response)
             return response.data
         } catch (e) {
             return thunkAPI.rejectWithValue('Ошибка загрузки сообщений')

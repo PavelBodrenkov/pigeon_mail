@@ -7,7 +7,7 @@
     display: flex;
     position: relative;
     padding: 10px;
-    border-radius: 7px;
+    //border-radius: 7px;
 
     &--avatar {
       position: relative;
@@ -40,6 +40,7 @@
 
       &-top {
         display: flex;
+        color: #bfbfbf;
 
         b {
           font-weight: 500;
@@ -59,6 +60,7 @@
         overflow: hidden;
         white-space: nowrap;
         width: 220px;
+        color:#bfbfbf
       }
         &-count {
           position: absolute;

@@ -8,7 +8,7 @@ import {Alert, Empty} from "antd";
 const Dialogs: FC<any> = () => {
 
     const dispatch = useAppDispatch();
-    const {items, isLoading, error} = useAppSelector(state => state.dialogs)
+    const {dialogs, isLoading, error} = useAppSelector(state => state.dialogs)
 
     useEffect(() => {
         dispatch(fetchDialogs())
@@ -30,9 +30,9 @@ const Dialogs: FC<any> = () => {
             }
             {error && <Alert message={error} type="error"/>}
             {!error && !isLoading && (
-                items.length !== 0 ?
+                dialogs.length !== 0 ?
                     <BaseDialogs
-                        items={items}
+                        items={dialogs}
                     />
                     :
                     <Empty description={

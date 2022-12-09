@@ -1,19 +1,23 @@
-import React, {FC, useState} from 'react';
-import {Button, Drawer, Image, Popover} from "antd";
-import {ArrowLeftOutlined, MenuOutlined} from "@ant-design/icons";
+import React, {FC, useEffect, useState} from 'react';
+import {Button, Drawer, Form, Image, Input, Popover, Space} from "antd";
+import {ArrowLeftOutlined, MenuOutlined, FormOutlined} from "@ant-design/icons";
 import {HoverButton} from "@components/index";
-import {useAppDispatch} from "../../hooks/redux";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {auth} from "@redux/actions";
+import {setCurrentDialog} from "@redux/reducers/dialogs";
 
 
-
-const SidebarHeader:FC<any> = () => {
+const SidebarHeader: FC<any> = () => {
     const dispatch = useAppDispatch();
     const [openPopover, setOpenPopover] = useState(false);
     const [openDrawer, setOpenDrawer] = useState(false)
+    const [form] = Form.useForm();
+    const {currentDialog} = useAppSelector(state => state.dialogs)
+    const {user} = useAppSelector(state => state.users)
 
     const logout = () => {
         dispatch(auth.fetchLogout())
+        dispatch(setCurrentDialog({}))
     }
 
     const onCloseDrawer = () => {
@@ -37,6 +41,12 @@ const SidebarHeader:FC<any> = () => {
         </div>
     );
 
+    useEffect(() => {
+        form.setFieldsValue({
+            name: user.fullname
+        });
+    }, [])
+
     return (
         <div className={'chat__sidebar-header'}>
             <Drawer
@@ -56,16 +66,30 @@ const SidebarHeader:FC<any> = () => {
                 onClose={onCloseDrawer}
                 open={openDrawer}
                 getContainer={false}
-                width={319}
+                width={'100%'}
                 style={{boxShadow: 'none'}}
             >
                 <div>
-                    <Image
-                        // src={'https://funart.pro/uploads/posts/2021-04/1617458799_2-p-oboi-zakat-zimoi-2.jpg'}
-                        src="error"
-                        fallback={'https://funart.pro/uploads/posts/2021-04/1617458799_2-p-oboi-zakat-zimoi-2.jpg'}
-                    />
-                    <button onClick={logout}>Выход</button>
+                    <Space direction={'vertical'} size={'large'} style={{width: '100%'}}>
+                        <Image
+                            // src={'https://funart.pro/uploads/posts/2021-04/1617458799_2-p-oboi-zakat-zimoi-2.jpg'}
+                            src={user.avatar === null ? 'error' : user.avatar}
+                            width={'100%'}
+                            fallback={'https://wallridestore.com/images/product.jpg'}
+                        />
+                        <Form form={form}>
+                            <Form.Item name={'name'}>
+                                <Input placeholder={'Имя'}/>
+                            </Form.Item>
+                            <Form.Item name={'hash'}>
+                                <Input placeholder={'Хеш имя'}/>
+                            </Form.Item>
+                            <Button onClick={logout} type={'default'}>
+                                Выход
+                            </Button>
+                        </Form>
+                    </Space>
+
                 </div>
             </Drawer>
             <Popover
@@ -79,10 +103,15 @@ const SidebarHeader:FC<any> = () => {
             >
                 <div>
                     <HoverButton>
-                        <MenuOutlined style={{fontSize:20}}/>
+                        <MenuOutlined style={{fontSize: 20}}/>
                     </HoverButton>
                 </div>
             </Popover>
+            <span>
+                <HoverButton>
+                     <FormOutlined/>
+                </HoverButton>
+            </span>
         </div>
     );
 };
