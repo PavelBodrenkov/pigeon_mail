@@ -10,7 +10,7 @@ const Messages: FC<any> = () => {
 
     const {messages, isLoadingMessage, error} = useAppSelector(state => state.messages)
 
-
+    console.log('messages', messages)
 
     return (
         <>

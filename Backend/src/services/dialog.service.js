@@ -8,7 +8,7 @@ class DialogService {
             `
             SELECT U.id as userId, U.fullname, U.avatar, C.id as convId, C.sender, C.unread, M.message, M.date
             FROM users as U, conversation as C
-                LEFT JOIN messages as M ON(C.last_message_id = M.id)
+            LEFT JOIN messages as M ON(C.last_message_id = M.id)
             WHERE (C.first = ${userId} OR C.second = ${userId})
             AND CASE
                 WHEN C.first = ${userId}

@@ -9,8 +9,14 @@ interface initialState {
     isLoadingRegister:boolean,
     isLoadingLogout:boolean,
     isLoadingRefresh:boolean,
-    errorLogin:string,
-    errorRegister:string,
+    errorLogin:{
+        message:string,
+        status:number
+    },
+    errorRegister:{
+        message:string,
+        status:number
+    },
     errorLogout:string,
     errorRefresh:string,
 }
@@ -22,8 +28,14 @@ const initialState:initialState = {
     isLoadingRegister:false,
     isLoadingLogout:false,
     isLoadingRefresh:false,
-    errorLogin:'',
-    errorRegister:'',
+    errorLogin:{
+        message:'',
+        status:0
+    },
+    errorRegister:{
+        message:'',
+        status:0
+    },
     errorLogout:'',
     errorRefresh:'',
 }
@@ -35,32 +47,45 @@ const usersSlice = createSlice( {
     },
     extraReducers: {
         [auth.fetchLogin.fulfilled.type]: (state, action:PayloadAction<IUser>) => {
+            console.log('action', action)
             state.isLoadingLogin = false;
-            state.errorLogin = '';
+            state.errorLogin =  {
+                message:'',
+                status:0
+            };
             state.user = action.payload;
             state.isAuth = true
         },
         [auth.fetchLogin.pending.type]: (state) => {
             state.isLoadingLogin = true
         },
-        [auth.fetchLogin.rejected.type]: (state, action:PayloadAction<string>) => {
+        [auth.fetchLogin.rejected.type]: (state, action:PayloadAction<{message:string, status:number}>) => {
             state.isLoadingLogin = false;
             state.isAuth = false;
-            state.errorLogin = action.payload
+            state.errorLogin = {
+                message:action.payload.message,
+                status:action.payload.status
+            };
         },
 
         [auth.fetchRegister.fulfilled.type]: (state, action:PayloadAction<IUser>) => {
             state.isLoadingRegister = false;
-            state.errorRegister = '';
+            state.errorRegister = {
+                message:'',
+                status:0
+            };
             state.user = action.payload
             state.isAuth = true
         },
         [auth.fetchRegister.pending.type]: (state) => {
             state.isLoadingRegister = true
         },
-        [auth.fetchRegister.rejected.type]: (state, action:PayloadAction<string>) => {
+        [auth.fetchRegister.rejected.type]: (state, action:PayloadAction<{message:string, status:number}>) => {
             state.isLoadingRegister = false;
-            state.errorRegister = action.payload
+            state.errorRegister = {
+                message:action.payload.message,
+                status:action.payload.status
+            }
             state.isAuth = false;
         },
 

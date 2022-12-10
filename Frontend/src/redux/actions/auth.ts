@@ -22,8 +22,11 @@ const fetchLogin = createAsyncThunk(
             const response = await AuthApi.login(data.email, data.password)
             localStorage.setItem('token', response.data.accessToken)
             return response.data.user
-        } catch (e) {
-            return thunkAPI.rejectWithValue('Ошибка авторизации')
+        } catch (e:any) {
+            return thunkAPI.rejectWithValue({
+                message:e.response.data.message,
+                status:e.response.status
+            })
         }
     }
 )
@@ -35,8 +38,11 @@ const fetchRegister = createAsyncThunk(
             const response = await AuthApi.registration(data.fullname, data.email, data.password)
             localStorage.setItem('token', response.data.accessToken)
             return response.data.user
-        } catch (e) {
-            return thunkAPI.rejectWithValue('Ошибка регистрации')
+        } catch (e:any) {
+            return thunkAPI.rejectWithValue({
+                message:e.response.data.message,
+                status:e.response.status
+            })
         }
     }
 )

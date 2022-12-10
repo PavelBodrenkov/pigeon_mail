@@ -6,6 +6,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 require('dotenv').config()
 const PORT = process.env.PORT || 8080;
+const errorMiddleware = require('./middlewares/error.middleware');
 
 const app = express()
 
@@ -18,6 +19,7 @@ app.use(cors({
 }));
 
 app.use('/api', indexRouter);
+app.use(errorMiddleware);
 app.use(errors());
 
 app.listen(PORT, () => console.log(`Сервер запущен на порту ${PORT}`))

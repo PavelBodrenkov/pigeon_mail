@@ -28,12 +28,16 @@ const RegisterForm = () => {
                 <p>Для входа в чат, вам нужно зарегистрироваться</p>
             </div>
             <Block>
-                {errorRegister && (
+                {errorRegister.message && (
                     <div className={'alert'}>
                         <Alert
-                            message="Ошибка регистрации"
+                            message={errorRegister.message}
                             type="error"
-                            description='Попробуйте позднее или обратитесь в поддержку'
+                            description={
+                                errorRegister.status === 500
+                                    ? 'Попробуйте позднее или обратитесь в поддержку'
+                                    : ''
+                            }
                             showIcon
                         />
                     </div>

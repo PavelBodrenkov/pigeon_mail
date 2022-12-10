@@ -12,27 +12,23 @@ const ChatInput = () => {
     const {sender, userid} = currentDialog
     const {id, avatar, fullname} = user
 
-    const [value, setValue] = useState('')
+    const [value, setValue] = useState<string>('')
     const [form] = Form.useForm();
     const dispatch = useAppDispatch();
 
     const sendMessage = (e):void => {
         e.stopPropagation()
-        const data = {
-            conv_id:currentDialog.convid || 0,
-            message:value,
-            partner:id === sender ? userid : sender
+        if(value !== '') {
+            const data = {
+                conv_id:currentDialog.convid || 0,
+                message:value,
+                partner:id === sender ? userid : sender
+            }
+            dispatch(messagesAction.sendMessage(data))
+            form.setFieldsValue({
+                message: ''
+            });
         }
-        dispatch(messagesAction.sendMessage(data))
-        // dispatch(setMessages({
-        //         avatar,
-        //         date:new Date(),
-        //         fullname,
-        //
-        // }))
-        form.setFieldsValue({
-            message: ''
-        });
     }
 
     return (

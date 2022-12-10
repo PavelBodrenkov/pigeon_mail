@@ -26,7 +26,7 @@ interface MessageProps {
 }
 
 const Message: FC<any> = ({
-                              avatar, date, message, isMe, isTyping = false
+                              avatar, date, message, isMe, isTyping = false, readed
                           }) => {
 
     return (
@@ -36,7 +36,7 @@ const Message: FC<any> = ({
             // {'message--image': attachments && attachments.length === 1}
         )}>
             <div className={'message__content'}>
-                {/*<MessageStatus isMe={isMe} isReaded={isReaded}/>*/}
+                <MessageStatus isMe={isMe} isReaded={readed}/>
                 <div className={'message__avatar'}>
                     <Avatar size={33} src={avatar} className={'avatar'}/>
                 </div>

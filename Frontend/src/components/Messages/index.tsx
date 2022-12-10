@@ -15,7 +15,7 @@ const Messages = ({items}) => {
                 // ref={blockRef}
             >
                 {items.map((m) => {
-                    const {avatar, date, fullname, message, sender, id} = m
+                    const {avatar, date, fullname, message, sender, id, readed} = m
                     return (
                         <Message
                             key={id}
@@ -24,6 +24,7 @@ const Messages = ({items}) => {
                             fullname={fullname}
                             message={message}
                             isMe={user.id === sender}
+                            readed={readed}
                         />
                     )
                 })}

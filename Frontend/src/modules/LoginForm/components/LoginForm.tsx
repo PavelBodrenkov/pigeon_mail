@@ -8,8 +8,7 @@ import {auth} from "@redux/actions";
 
 const LoginForm = () => {
     const dispatch = useAppDispatch();
-    const { isLoadingLogin, errorLogin} = useAppSelector(state => state.users)
-
+    const {isLoadingLogin, errorLogin} = useAppSelector(state => state.users)
 
     const onLoginSubmit = (values: any) => {
         dispatch(auth.fetchLogin(values))
@@ -22,12 +21,16 @@ const LoginForm = () => {
                 <p>Пожалуйста, войдите в свой аккаунт</p>
             </div>
             <Block>
-                {errorLogin && (
+                {errorLogin.message && (
                     <div className={'alert'}>
                         <Alert
-                            message="Ошибка авторизации"
+                            message={errorLogin.message}
                             type="error"
-                            description='Попробуйте позднее или обратитесь в поддержку'
+                            description={
+                                errorLogin.status === 500
+                                    ? 'Попробуйте позднее или обратитесь в поддержку'
+                                    : ''
+                            }
                             showIcon
                         />
                     </div>
@@ -35,17 +38,20 @@ const LoginForm = () => {
                 <Form
                     name="login"
                     onFinish={onLoginSubmit}
-                    initialValues={{ remember: true }}
+                    initialValues={{remember: true}}
                     autoComplete="off"
                 >
                     <Form.Item
                         name="email"
                         hasFeedback
-                        rules={[{required: true, message: 'Обязательное поле'}]}
+                        rules={[
+                            {required: true, message: 'Обязательное поле'},
+                            {type: 'email', warningOnly: true, message: 'некорректный email'},
+                            {type: 'string'}]}
                     >
                         <Input
                             prefix={<UserOutlined className="site-form-item-icon"/>}
-                            placeholder={'Имя'}
+                            placeholder={'Email'}
                             size={'large'}
                         />
                     </Form.Item>

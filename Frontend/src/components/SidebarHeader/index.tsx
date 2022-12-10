@@ -109,7 +109,7 @@ const SidebarHeader: FC<any> = () => {
             </Popover>
             <span>
                 <HoverButton>
-                     <FormOutlined/>
+                     <FormOutlined style={{fontSize: 20}}/>
                 </HoverButton>
             </span>
         </div>

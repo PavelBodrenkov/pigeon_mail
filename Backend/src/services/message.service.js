@@ -20,7 +20,7 @@ class MessageService {
             if (row_conversation.rows.length === 0) {
                 console.log('нет диалогов')
             } else {
-                const sql = `SELECT M.id, M.date, M.message, M.sender, U.avatar, U.fullname
+                const sql = `SELECT M.id, M.date, M.message, M.sender, U.avatar, U.fullname, M.readed
                              FROM messages as M
                             LEFT JOIN users as U ON (U.id = sender)
                              WHERE

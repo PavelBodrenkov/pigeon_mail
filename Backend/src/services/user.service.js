@@ -2,12 +2,9 @@ const db = require('../db');
 const bcrypt = require("bcrypt")
 const uuid = require('uuid');
 
-const UnauthorizedError = require("../errors/authorized-err")
-const ConflictError = require("../errors/conflict-errror");
-const NotFoundError = require("../errors/not-found-err");
-const mailService = require('./mail.service');
 const tokenService = require('./token.service');
 const UserDto = require('../dtos/user.dto')
+const ApiError = require('../errors/api.errors');
 
 class UserService {
     constructor() {
@@ -45,7 +42,7 @@ class UserService {
         const {id} = req.user
         const user = this.findUserById(id)
         if (!user) {
-            throw new NotFoundError('Пользователь не найден')
+            throw ApiError.NotFoundError('Пользователь не найден')
         }
         return user
     }
@@ -54,11 +51,11 @@ class UserService {
         const {email, password} = req.body;
         const user = await this.findUserByEmail(email)
         if (!user) {
-            throw new UnauthorizedError('Неправильная почта или пароль')
+            throw ApiError.UnauthorizedError('Неправильная почта или пароль')
         }
         const pass = await bcrypt.compare(password.toString(), user.password)
         if (!pass) {
-            throw new UnauthorizedError('Неправильная почта или пароль')
+            throw ApiError.UnauthorizedError('Неправильная почта или пароль')
         }
         const userDto = new UserDto(user);
         const tokens = tokenService.generateToken({...userDto})
@@ -73,8 +70,9 @@ class UserService {
     async createUser(req) {
         const {email, avatar, fullname, password, is_admin = 0} = req.body
         const user = await this.findUserByEmail(email)
+        console.log('user', user)
         if (user) {
-            throw new ConflictError('Пользователь с таким email уже существует')
+            throw ApiError.ConflictError('Пользователь с таким email уже существует')
         }
 
         const hash = await bcrypt.hash(password.toString(), 10);
@@ -102,13 +100,13 @@ class UserService {
 
     async refresh(refreshToken) {
         if (!refreshToken) {
-            throw new UnauthorizedError('Необходима авторизация')
+            throw ApiError.UnauthorizedError('Необходима авторизация')
         }
         const userData = tokenService.validateRefreshToken(refreshToken)
 
         const tokenFromDB = await tokenService.findToken(refreshToken)
         if(!userData && !tokenFromDB) {
-            throw new UnauthorizedError('Необходима авторизация')
+            throw ApiError.UnauthorizedError('Необходима авторизация')
         }
 
         const user = await this.findUserById(userData.id)
@@ -130,7 +128,7 @@ class UserService {
         const user = await this.findUserByEmail(email);
 
         if (user) {
-            throw new ConflictError('Пользователь с таким email уже существует')
+            throw ApiError.ConflictError('Пользователь с таким email уже существует')
         }
 
         const sql = 'UPDATE users SET fullname = $1, email = $2, updated_at = $3 WHERE id = $4 AND deleted_at in null RETURNING *'
@@ -142,7 +140,7 @@ class UserService {
         const user = await this.findUserById(id)
 
         if (!user) {
-            throw new NotFoundError('Пользователь удален или не найден')
+            throw ApiError.NotFoundError('Пользователь удален или не найден')
         }
 
         const sql = 'UPDATE users SET deleted_at = $1 WHERE id = $2'

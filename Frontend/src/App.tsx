@@ -12,7 +12,9 @@ function App() {
     const {isLoadingRefresh} = useAppSelector(state => state.users)
 
     useEffect(() => {
-        dispatch(auth.fetchCheckAuth())
+        if(localStorage.getItem('token')) {
+            dispatch(auth.fetchCheckAuth())
+        }
     }, [])
 
     return (
