@@ -3,6 +3,7 @@ create TABLE users(
     id SERIAL PRIMARY KEY,
     email VARCHAR(255) DEFAULT(null),
     avatar VARCHAR(255),
+    color_avatar VARCHAR(100),
     fullname VARCHAR(255),
     password VARCHAR(255) DEFAULT(null),
     is_admin SMALLINT DEFAULT(0),

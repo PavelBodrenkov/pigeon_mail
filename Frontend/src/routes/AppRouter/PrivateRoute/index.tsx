@@ -4,7 +4,7 @@ import {useAppSelector} from "../../../hooks/redux";
 
 //@ts-ignore
 const PrivateRoute = ({ children }) => {
-    const { isAuth } = useAppSelector(state => state.users)
+    const { isAuth } = useAppSelector(state => state.auth)
     const location = useLocation();
     const url = new URLSearchParams();
     url.set("redirect", location.pathname + location.search);

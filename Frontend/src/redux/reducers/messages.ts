@@ -3,16 +3,40 @@ import {messagesAction} from "@redux/actions";
 
 interface initialState {
     messages:any[],
-    isLoadingMessage:boolean,
+    isLoadingGetMessage:boolean,
     isLoadingSaveMessage:boolean,
-    error:string
+    isLoadingDeleteMessage:boolean
+    errorGetMessage:{
+        message:string,
+        status:number
+    }
+    errorSaveMessage:{
+        message:string,
+        status:number
+    }
+    errorDeleteMessage:{
+        message:string,
+        status:number
+    }
 }
 
 const initialState:initialState = {
     messages:[],
-    isLoadingMessage:false,
+    isLoadingGetMessage:false,
     isLoadingSaveMessage:false,
-    error:''
+    isLoadingDeleteMessage:false,
+    errorGetMessage:{
+        message:'',
+        status:0
+    },
+    errorSaveMessage:{
+        message:'',
+        status:0
+    },
+    errorDeleteMessage:{
+        message:'',
+        status:0
+    },
 }
 
 const messagesSlice = createSlice( {
@@ -25,28 +49,60 @@ const messagesSlice = createSlice( {
     },
     extraReducers: {
         [messagesAction.fetchMessages.fulfilled.type]: (state, action) => {
-            state.isLoadingMessage = false;
-            state.error = '';
+            state.isLoadingGetMessage = false;
+            state.errorGetMessage ={
+                message:'',
+                status:0
+            };
             state.messages = action.payload
         },
         [messagesAction.fetchMessages.pending.type]: (state) => {
-            state.isLoadingMessage = true
+            state.isLoadingGetMessage = true
         },
-        [messagesAction.fetchMessages.rejected.type]: (state, action:PayloadAction<string>) => {
-            state.isLoadingMessage = false;
-            state.error = action.payload
+        [messagesAction.fetchMessages.rejected.type]: (state, action:PayloadAction<{message:string, status:number}>) => {
+            state.isLoadingGetMessage = false;
+            state.errorGetMessage = {
+                message:action.payload.message,
+                status:action.payload.status
+            }
         },
         [messagesAction.sendMessage.fulfilled.type]:(state, action) => {
             state.messages.push(action.payload)
             state.isLoadingSaveMessage = false;
-            state.error = '';
+            state.errorSaveMessage = {
+                message:'',
+                status:0
+            };
         },
         [messagesAction.sendMessage.pending.type]: (state) => {
             state.isLoadingSaveMessage = true
         },
-        [messagesAction.sendMessage.rejected.type]: (state, action:PayloadAction<string>) => {
+        [messagesAction.sendMessage.rejected.type]: (state, action:PayloadAction<{message:string, status:number}>) => {
             state.isLoadingSaveMessage = false;
-            state.error = action.payload
+            state.errorSaveMessage = {
+                message:action.payload.message,
+                status:action.payload.status
+            }
+        },
+
+        [messagesAction.deleteMessage.fulfilled.type]:(state, action) => {
+            console.log('action.payload', action.payload)
+            state.messages = state.messages.filter((item) => item.id !== action.payload.id)
+            state.isLoadingSaveMessage = false;
+            state.errorDeleteMessage = {
+                message:'',
+                status:0
+            };
+        },
+        [messagesAction.deleteMessage.pending.type]: (state) => {
+            state.isLoadingSaveMessage = true
+        },
+        [messagesAction.deleteMessage.rejected.type]: (state, action:PayloadAction<{message:string, status:number}>) => {
+            state.isLoadingSaveMessage = false;
+            state.errorDeleteMessage = {
+                message:action.payload.message,
+                status:action.payload.status
+            }
         },
     }
 })

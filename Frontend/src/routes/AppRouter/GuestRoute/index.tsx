@@ -5,7 +5,7 @@ import {useAppSelector} from "../../../hooks/redux";
 
 const GuestRoute:FC<any> = ({ children, ...rest }) => {
 
-    const { isAuth } = useAppSelector(state => state.users)
+    const { isAuth } = useAppSelector(state => state.auth)
     const location = useLocation();
     const url = new URLSearchParams(location.search.slice(1));
 

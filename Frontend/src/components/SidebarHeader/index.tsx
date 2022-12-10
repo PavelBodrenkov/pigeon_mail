@@ -1,19 +1,25 @@
 import React, {FC, useEffect, useState} from 'react';
-import {Button, Drawer, Form, Image, Input, Popover, Space} from "antd";
+import {Button, Drawer, Form, Image, Input, Select, Space} from "antd";
 import {ArrowLeftOutlined, MenuOutlined, FormOutlined} from "@ant-design/icons";
 import {HoverButton} from "@components/index";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {auth} from "@redux/actions";
 import {setCurrentDialog} from "@redux/reducers/dialogs";
-
+import {Popover} from '@components/index';
+import dialogs from "@redux/actions/dialogs";
 
 const SidebarHeader: FC<any> = () => {
     const dispatch = useAppDispatch();
-    const [openPopover, setOpenPopover] = useState(false);
+    const {users} = useAppSelector(state => state.users)
+    const {user} = useAppSelector(state => state.auth)
+    const [openPopoverSettings, setOpenPopoverSettings] = useState(false);
+    const [openPopoverNewDialog, setOpenPopoverNewDialog] = useState(false);
     const [openDrawer, setOpenDrawer] = useState(false)
+    const [createDialog, setCreateDialog] = useState<{ userId: number, message: string }>({
+        userId: 0,
+        message: ''
+    })
     const [form] = Form.useForm();
-    const {currentDialog} = useAppSelector(state => state.dialogs)
-    const {user} = useAppSelector(state => state.users)
 
     const logout = () => {
         dispatch(auth.fetchLogout())
@@ -26,20 +32,78 @@ const SidebarHeader: FC<any> = () => {
 
     const OpenSettings = () => {
         setOpenDrawer(true);
-        setOpenPopover(false)
+        setOpenPopoverSettings(false)
     }
 
-    const handleVisiblePopover = (newVisible: boolean) => {
-        setOpenPopover(newVisible);
+    const handleVisiblePopover = (newVisible: boolean, key) => {
+        switch (key) {
+            case 'setting': {
+                setOpenPopoverSettings(newVisible);
+            }
+                break
+            case 'newDialog': {
+                setOpenPopoverNewDialog(newVisible)
+            }
+                break
+        }
     };
 
-    const content = (
+    const createUserSubmit = () => {
+        const data = {
+            owner:user.id,
+            partner:createDialog.userId,
+            message:createDialog.message
+        }
+        dispatch(dialogs.createDialog(data))
+        setOpenPopoverNewDialog(false)
+    }
+
+    const contentSetting = (
         <div className={'setting-menu_block'}>
             <ul className={'setting-menu_block-blur'}>
                 <li onClick={OpenSettings}>Настроки</li>
             </ul>
         </div>
     );
+
+    const contentNewDialog = (
+        <Form
+            layout={'vertical'}
+            onFinish={createUserSubmit}
+            onValuesChange={(_changedValues, allValues) => {
+                setCreateDialog(allValues)
+            }}
+        >
+            <Form.Item
+                label={'Выберите собеседника'}
+                name={'userId'}
+                rules={[{required: true, message: 'Обязательное поле'}]}
+            >
+                <Select
+                    showSearch
+                    placeholder="Выберите собеседника"
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>
+                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
+                    options={users.map((user) => {
+                        return {
+                            label: user.fullname,
+                            value: user.id
+                        }
+                    })}
+                />
+            </Form.Item>
+            <Form.Item
+                label={'Напишите приветственное сообщение'}
+                name={'message'}
+                rules={[{required: true, message: 'Обязательное поле'}]}
+            >
+                <Input placeholder={'Сообщение'}/>
+            </Form.Item>
+            <Button style={{width: '100%'}} htmlType={'submit'}>Написать</Button>
+        </Form>
+    )
 
     useEffect(() => {
         form.setFieldsValue({
@@ -51,15 +115,15 @@ const SidebarHeader: FC<any> = () => {
         <div className={'chat__sidebar-header'}>
             <Drawer
                 title={
-                    <div
-                        className={'chat__sidebar-header'}
+                    <Space
+                        className={'chat__sidebar-header-drawer'}
                         style={{marginBottom: 0, borderBottom: 0, height: 57}}
                     >
                         <HoverButton onClick={onCloseDrawer}>
-                            <ArrowLeftOutlined/>
+                            <ArrowLeftOutlined style={{fontSize: 20}}/>
                         </HoverButton>
                         <span>Настройки</span>
-                    </div>
+                    </Space>
                 }
                 placement="left"
                 closable={false}
@@ -93,13 +157,9 @@ const SidebarHeader: FC<any> = () => {
                 </div>
             </Drawer>
             <Popover
-                content={content}
-                title={false}
-                trigger="click"
-                open={openPopover}
-                placement="bottomLeft"
-                overlayClassName={'popover'}
-                onOpenChange={handleVisiblePopover}
+                content={contentSetting}
+                open={openPopoverSettings}
+                onOpenChange={(e) => handleVisiblePopover(e, 'setting')}
             >
                 <div>
                     <HoverButton>
@@ -107,11 +167,18 @@ const SidebarHeader: FC<any> = () => {
                     </HoverButton>
                 </div>
             </Popover>
-            <span>
-                <HoverButton>
-                     <FormOutlined style={{fontSize: 20}}/>
-                </HoverButton>
-            </span>
+            <Popover
+                content={contentNewDialog}
+                open={openPopoverNewDialog}
+                onOpenChange={(e) => handleVisiblePopover(e, 'newDialog')}
+                placement={'bottomRight'}
+            >
+                <div>
+                    <HoverButton>
+                        <FormOutlined style={{fontSize: 20}}/>
+                    </HoverButton>
+                </div>
+            </Popover>
         </div>
     );
 };

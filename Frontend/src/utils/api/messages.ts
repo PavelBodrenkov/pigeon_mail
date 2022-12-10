@@ -9,7 +9,10 @@ export default class MessagesApi {
     }
 
     static async sendMessage(conv_id:number, message:string, partner:number) {
-        console.log(conv_id, message, partner)
         return $api.post('/api/message', {conv_id, message, partner})
+    }
+
+    static async deleteMessage(message_id:number) {
+        return $api.put('/api/message', {message_id})
     }
 }

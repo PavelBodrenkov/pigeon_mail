@@ -1,6 +1,7 @@
 export interface dialogItem {
     userid: number,
     fullname: string,
+    readed:number,
     avatar: null | string,
     convid: number,
     sender: number,

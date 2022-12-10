@@ -1,38 +1,26 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {Dialogs as BaseDialogs} from '@components/index';
-import {useAppDispatch, useAppSelector} from "../hooks/redux";
-import {fetchDialogs} from "@redux/actions";
+import {useAppSelector} from "../hooks/redux";
 import {Spinner} from '@components/Spinner';
 import {Alert, Empty} from "antd";
 
-const Dialogs: FC<any> = () => {
 
-    const dispatch = useAppDispatch();
-    const {dialogs, isLoading, error} = useAppSelector(state => state.dialogs)
+const Dialogs: FC<any> = ({filtered}) => {
 
-    useEffect(() => {
-        dispatch(fetchDialogs())
-    }, [])
-
-    // const onChangeInput = (value: string) => {
-    //     setFiltered(
-    //         items.filter((dialog: dialogItem) => dialog.user.fullname.toLowerCase().indexOf(value.toLowerCase()) > 0)
-    //     )
-    //     setInputValue(value)
-    // }
+    const {isLoadingDialogs, errorDialogs} = useAppSelector(state => state.dialogs)
 
     return (
         <>
-            {isLoading &&
+            {isLoadingDialogs &&
                 <div style={{position: 'relative', width: '100%', height: 50}}>
                     <Spinner text={'Загрузка диалогов...'} textSize={15} center={true}/>
                 </div>
             }
-            {error && <Alert message={error} type="error"/>}
-            {!error && !isLoading && (
-                dialogs.length !== 0 ?
+            {errorDialogs.message && <Alert message={errorDialogs.message} type="error"/>}
+            {!errorDialogs.message && !isLoadingDialogs && (
+                filtered.length !== 0 ?
                     <BaseDialogs
-                        items={dialogs}
+                        dialogs={filtered}
                     />
                     :
                     <Empty description={

@@ -6,7 +6,7 @@ class DialogService {
         const userId = req.user.id
         const sql =
             `
-            SELECT U.id as userId, U.fullname, U.avatar, C.id as convId, C.sender, C.unread, M.message, M.date
+            SELECT U.id as userId, U.fullname, U.avatar, C.id as convId, C.sender, C.unread, M.message, M.date, M.readed, C.last_message_id
             FROM users as U, conversation as C
             LEFT JOIN messages as M ON(C.last_message_id = M.id)
             WHERE (C.first = ${userId} OR C.second = ${userId})
@@ -19,13 +19,12 @@ class DialogService {
             ORDER BY C.unread DESC
             `;
         const allDialog = await db.query(sql)
+        console.log(allDialog.rows)
         return allDialog.rows
     }
 
-
     async createDialog(req) {
-        const {owner, partner} = req.body
-        const message = 'Hello My Friend three';
+        const {owner, partner, message} = req.body
         //Проверяем, не отправляем ли мы диалог сами себе
         if (owner !== partner) {
             //Проверяем есть ли уже диалог
@@ -69,8 +68,18 @@ class DialogService {
                                          AND M.sender = ${owner})
                 WHERE id = ${last_conversation_id} RETURNING *
             `
-            const result = await db.query(updateConversationSQL);
-            return result.rows[0]
+            const conversation_update = await db.query(updateConversationSQL);
+           //  console.log('conversation_update', conversation_update)
+           //
+           //  const resultSql =
+           //      `
+           //  SELECT U.id as userId, U.fullname, U.avatar, C.id as convId, C.sender, C.unread, M.message, M.date, M.readed
+           //  FROM users as U, conversation as C
+           //  LEFT JOIN messages as M ON(C.last_message_id = M.id)
+           //  WHERE C.id = ${conversation_update.rows[0].id}
+           //  `;
+           // const res = await db.query(resultSql)
+            return conversation_update.rows[0]
         }
     }
 

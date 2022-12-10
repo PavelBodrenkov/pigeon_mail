@@ -1,25 +1,39 @@
-import React, {useState} from 'react';
-import {HoverButton, SidebarHeader} from "@components/index";
-import {Drawer, Image, Input} from "antd";
-import {ArrowLeftOutlined, SearchOutlined} from "@ant-design/icons";
+import React, {useEffect, useState} from 'react';
+import {SidebarHeader} from "@components/index";
+import {Input} from "antd";
+import {SearchOutlined} from "@ant-design/icons";
 import {Dialogs} from "@containers/index";
-import {auth} from "@redux/actions";
-import {useAppDispatch} from "../../hooks/redux";
+import {fetchDialogs, fetchUsers} from "@redux/actions";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import {dialogItem} from "types/dialogTypes";
 
 const SiderBar = () => {
 
+    const {dialogs} = useAppSelector(state => state.dialogs)
+    const [filtered, setFiltered] = useState<dialogItem[]>([])
 
+    useEffect(() => {
+        setFiltered(dialogs)
+    }, [dialogs])
+
+    const onChangeInput = (value: string) => {
+        setFiltered(
+            dialogs.filter((dialog: dialogItem) => dialog.fullname.toLowerCase().includes(value.toLowerCase()))
+        )
+    }
 
     return (
         <div className={'chat__sidebar'}>
-            <SidebarHeader />
+            <SidebarHeader/>
             <div className={'chat__sidebar-search'}>
                 <Input
                     placeholder={'Поиск по списку диалогов'}
-                    prefix={<SearchOutlined className="site-form-item-icon"/>}/>
+                    prefix={<SearchOutlined className="site-form-item-icon"/>}
+                    onChange={(e) => onChangeInput(e.target.value)}
+                />
             </div>
             <div className={'chat__sidebar-dialogs'}>
-                <Dialogs/>
+                <Dialogs filtered={filtered}/>
             </div>
         </div>
     );

@@ -11,3 +11,5 @@ export {default as Messages} from './Messages';
 export {default as SidebarHeader} from './SidebarHeader';
 export {default as HoverButton} from './HoverButton';
 export {default as SideBar} from './SiderBar';
+export {default as Popover} from './Popover';
+export {default as Sider} from './Sider';

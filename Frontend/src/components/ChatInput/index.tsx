@@ -8,7 +8,7 @@ import {setMessages} from "@redux/reducers/messages";
 
 const ChatInput = () => {
     const { currentDialog } = useAppSelector(state => state.dialogs)
-    const { user } = useAppSelector(state => state.users)
+    const { user } = useAppSelector(state => state.auth)
     const {sender, userid} = currentDialog
     const {id, avatar, fullname} = user
 

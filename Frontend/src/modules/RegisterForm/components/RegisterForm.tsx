@@ -9,7 +9,7 @@ import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 const RegisterForm = () => {
     const [validationConfirm, setValidationConfirm] = useState<any>('success')
     const dispatch = useAppDispatch();
-    const { isLoadingRegister, errorRegister } = useAppSelector(state => state.users)
+    const { isLoadingRegister, errorRegister } = useAppSelector(state => state.auth)
 
     const success = false
 

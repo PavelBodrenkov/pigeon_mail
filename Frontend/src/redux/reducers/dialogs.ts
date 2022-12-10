@@ -4,18 +4,38 @@ import {fetchDialogs} from "@redux/actions";
 
 interface initialState {
     dialogs:dialogItem[],
+    dialog:dialogItem,
     currentDialog:dialogItem,
     partner:number,
-    isLoading:boolean,
-    error:string
+    isLoadingDialogs:boolean,
+    errorDialogs:{
+        message:string,
+        status:number
+    },
+    isLoadingDialog:boolean,
+    errorDialog:{
+        message:string,
+        status:number
+    },
+    infoPartner:boolean
 }
 
 const initialState:initialState = {
-    dialogs:[],
+    dialogs:[] as dialogItem[],
+    dialog:{} as dialogItem,
     currentDialog:{} as dialogItem,
     partner:0,
-    isLoading:false,
-    error:''
+    isLoadingDialogs:false,
+    errorDialogs:{
+        message:'',
+        status:0
+    },
+    isLoadingDialog:false,
+    errorDialog:{
+        message:'',
+        status:0
+    },
+    infoPartner: false
 }
 
 const dialogsSlice = createSlice( {
@@ -25,22 +45,50 @@ const dialogsSlice = createSlice( {
         setCurrentDialog(state, action) {
             state.currentDialog = action.payload
         },
+        setInfoPartner(state, action) {
+            state.infoPartner = action.payload
+        }
     },
     extraReducers: {
-        [fetchDialogs.fulfilled.type]: (state, action:PayloadAction<dialogItem[]>) => {
-            state.isLoading = false;
-            state.error = '';
+        [fetchDialogs.fetchDialogs.fulfilled.type]: (state, action:PayloadAction<dialogItem[]>) => {
+            state.isLoadingDialogs = false;
+            state.errorDialogs = {
+                message:'',
+                status:0
+            };
             state.dialogs = action.payload
         },
-        [fetchDialogs.pending.type]: (state) => {
-            state.isLoading = true
+        [fetchDialogs.fetchDialogs.pending.type]: (state) => {
+            state.isLoadingDialogs = true
         },
-        [fetchDialogs.rejected.type]: (state, action:PayloadAction<string>) => {
-            state.isLoading = false;
-            state.error = action.payload
-        }
+        [fetchDialogs.fetchDialogs.rejected.type]: (state, action:PayloadAction<{message:string, status:number}>) => {
+            state.isLoadingDialogs = false;
+            state.errorDialogs = {
+                message:action.payload.message,
+                status:action.payload.status
+            }
+        },
+
+        [fetchDialogs.createDialog.fulfilled.type]: (state, action:PayloadAction<dialogItem>) => {
+            state.isLoadingDialog = false;
+            state.errorDialog = {
+                message:'',
+                status:0
+            }
+            // state.dialogs.push(action.payload)
+        },
+        [fetchDialogs.createDialog.pending.type]: (state) => {
+            state.isLoadingDialog = false;
+        },
+        [fetchDialogs.createDialog.rejected.type]: (state, action:PayloadAction<{message:string, status:number}>) => {
+            state.isLoadingDialog = false;
+            state.errorDialog = {
+                message:action.payload.message,
+                status:action.payload.status
+            }
+        },
     }
 })
 
 export default dialogsSlice.reducer
-export const {setCurrentDialog} = dialogsSlice.actions
+export const {setCurrentDialog, setInfoPartner} = dialogsSlice.actions

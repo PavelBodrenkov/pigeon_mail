@@ -8,7 +8,7 @@ import {Messages as BaseMessages} from '@components/index'
 
 const Messages: FC<any> = () => {
 
-    const {messages, isLoadingMessage, error} = useAppSelector(state => state.messages)
+    const {messages, isLoadingGetMessage, errorGetMessage} = useAppSelector(state => state.messages)
 
     console.log('messages', messages)
 
@@ -19,11 +19,11 @@ const Messages: FC<any> = () => {
             {/*        <Spinner text={'Загрузка диалогов...'} textSize={15} center={true}/>*/}
             {/*    </div>*/}
             {/*}*/}
-            {error && <Alert message={error} type="error"/>}
-            {!error && (
-                !isLoadingMessage && (messages.length !== 0 ?
+            {errorGetMessage.message && <Alert message={errorGetMessage.message} type="error"/>}
+            {!errorGetMessage.message && (
+                !isLoadingGetMessage && (messages.length !== 0 ?
                     <BaseMessages
-                        items={messages}
+                        messages={messages}
                     />
                     :
                     <Empty description={

@@ -1,43 +1,23 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {auth} from "@redux/actions";
+import {fetchUsers} from "@redux/actions";
 import {IUser} from "@utils/api/models/IUser";
 
 interface initialState {
-    user:IUser,
-    isAuth:boolean,
-    isLoadingLogin:boolean,
-    isLoadingRegister:boolean,
-    isLoadingLogout:boolean,
-    isLoadingRefresh:boolean,
-    errorLogin:{
+    users:IUser[],
+    isLoadingUsers:boolean,
+    errorUsers:{
         message:string,
         status:number
-    },
-    errorRegister:{
-        message:string,
-        status:number
-    },
-    errorLogout:string,
-    errorRefresh:string,
+    }
 }
 
 const initialState:initialState = {
-    user:{} as IUser,
-    isAuth:false,
-    isLoadingLogin:false,
-    isLoadingRegister:false,
-    isLoadingLogout:false,
-    isLoadingRefresh:false,
-    errorLogin:{
+    users:[] as IUser[],
+    isLoadingUsers:false,
+    errorUsers:{
         message:'',
         status:0
     },
-    errorRegister:{
-        message:'',
-        status:0
-    },
-    errorLogout:'',
-    errorRefresh:'',
 }
 
 const usersSlice = createSlice( {
@@ -46,81 +26,26 @@ const usersSlice = createSlice( {
     reducers: {
     },
     extraReducers: {
-        [auth.fetchLogin.fulfilled.type]: (state, action:PayloadAction<IUser>) => {
-            console.log('action', action)
-            state.isLoadingLogin = false;
-            state.errorLogin =  {
+        [fetchUsers.fetchUsers.fulfilled.type]: (state, action:PayloadAction<IUser[]>) => {
+            state.isLoadingUsers = false;
+            state.errorUsers =  {
                 message:'',
                 status:0
             };
-            state.user = action.payload;
-            state.isAuth = true
+            state.users = action.payload;
         },
-        [auth.fetchLogin.pending.type]: (state) => {
-            state.isLoadingLogin = true
+        [fetchUsers.fetchUsers.pending.type]: (state) => {
+            state.isLoadingUsers = true
         },
-        [auth.fetchLogin.rejected.type]: (state, action:PayloadAction<{message:string, status:number}>) => {
-            state.isLoadingLogin = false;
-            state.isAuth = false;
-            state.errorLogin = {
+        [fetchUsers.fetchUsers.rejected.type]: (state, action:PayloadAction<{message:string, status:number}>) => {
+            state.isLoadingUsers = false;
+            state.errorUsers = {
                 message:action.payload.message,
                 status:action.payload.status
             };
         },
-
-        [auth.fetchRegister.fulfilled.type]: (state, action:PayloadAction<IUser>) => {
-            state.isLoadingRegister = false;
-            state.errorRegister = {
-                message:'',
-                status:0
-            };
-            state.user = action.payload
-            state.isAuth = true
-        },
-        [auth.fetchRegister.pending.type]: (state) => {
-            state.isLoadingRegister = true
-        },
-        [auth.fetchRegister.rejected.type]: (state, action:PayloadAction<{message:string, status:number}>) => {
-            state.isLoadingRegister = false;
-            state.errorRegister = {
-                message:action.payload.message,
-                status:action.payload.status
-            }
-            state.isAuth = false;
-        },
-
-        [auth.fetchLogout.fulfilled.type]: (state, action:PayloadAction<IUser>) => {
-            state.isLoadingLogout = false
-            state.errorLogout = '';
-            state.user = {} as IUser;
-            state.isAuth = false
-        },
-        [auth.fetchLogout.pending.type]: (state) => {
-            state.isLoadingLogout = true
-        },
-        [auth.fetchLogout.rejected.type]: (state, action:PayloadAction<string>) => {
-            state.isLoadingLogout = false
-            state.errorLogout = action.payload
-            state.isAuth = false;
-        },
-
-        [auth.fetchCheckAuth.fulfilled.type]: (state, action:PayloadAction<IUser>) => {
-            state.isLoadingRefresh = false;
-            state.errorRefresh = '';
-            state.user = action.payload;
-            state.isAuth = true
-        },
-        [auth.fetchCheckAuth.pending.type]: (state) => {
-            state.isLoadingRefresh = true
-        },
-        [auth.fetchCheckAuth.rejected.type]: (state, action:PayloadAction<string>) => {
-            state.isLoadingRefresh = false;
-            state.errorRefresh = action.payload
-            state.isAuth = false;
-        },
-
     }
 })
 
 export default usersSlice.reducer
-//export const {setUser, setAuth, setError} = messagesSlice.actions
+// export const {setUser, setAuth, setError} = messagesSlice.actions

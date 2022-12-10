@@ -69,8 +69,12 @@
       border-bottom: 1px solid $brown;
       margin-bottom: 20px;
 
-      span {
-        color: #595959;
+      &-drawer {
+        margin-left: 10px;
+        span {
+          color: #595959;
+          font-size: 20px;
+        }
       }
 
       .ant-drawer-content {
@@ -168,6 +172,7 @@
         display: block;
         margin-bottom: 5px;
         color: $white_blue;
+        cursor: pointer;
       }
     }
 

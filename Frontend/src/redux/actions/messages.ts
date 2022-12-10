@@ -33,9 +33,22 @@ const sendMessage = createAsyncThunk(
     }
 )
 
+const deleteMessage = createAsyncThunk(
+    'messages/delete',
+    async (id:number, thunkAPI) => {
+        try {
+            const response = await MessagesApi.deleteMessage(id)
+            return response.data
+        } catch (e) {
+            return thunkAPI.rejectWithValue('Ошибка отправки сообщения')
+        }
+    }
+)
+
 
 
 export default {
     fetchMessages,
-    sendMessage
+    sendMessage,
+    deleteMessage
 }

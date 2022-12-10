@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import classNames from "classnames";
 // @ts-ignore
 import readedSvg from '../../assets/img/readed.svg';
@@ -6,9 +6,10 @@ import readedSvg from '../../assets/img/readed.svg';
 import noReadedSvg from '../../assets/img/noreaded.svg';
 
 import {UserOutlined} from '@ant-design/icons';
-import {Avatar} from "antd";
+import {Avatar, Dropdown} from "antd";
 import './Message.scss';
-import {Time, MessageStatus} from "@components/index";
+import {Time, MessageStatus, Popover} from "@components/index";
+import type {MenuProps} from 'antd';
 
 interface MessageProps {
     avatar: string,
@@ -26,10 +27,28 @@ interface MessageProps {
 }
 
 const Message: FC<any> = ({
-                              avatar, date, message, isMe, isTyping = false, readed
+                              avatar,
+                              date,
+                              message,
+                              isMe,
+                              isTyping = false,
+                              readed,
+                              getAvatar,
+                              user,
+                              fullname,
+                              id,
+                              handleDeleteMessage
                           }) => {
 
+    const items: MenuProps['items'] = [
+        {
+            label: (<div onClick={() => handleDeleteMessage(id)}>Удалить</div>),
+            key: id,
+        }
+    ];
+
     return (
+
         <div className={classNames('message',
             {'message--isme': isMe},
             // {'message--isTyping': isTyping},
@@ -38,22 +57,27 @@ const Message: FC<any> = ({
             <div className={'message__content'}>
                 <MessageStatus isMe={isMe} isReaded={readed}/>
                 <div className={'message__avatar'}>
-                    <Avatar size={33} src={avatar} className={'avatar'}/>
+                    {isMe ? getAvatar(user.avatar, user.fullname, 33) : getAvatar(avatar, fullname, 33)}
+                    {/*<Avatar size={33} src={avatar} className={'avatar'}/>*/}
                 </div>
+                <Dropdown menu={{items}} trigger={['contextMenu']}>
                 <div className={'message__info'}>
                     {
                         message && (
-                            <div className={'message__bubble'}>
-                                {message && !isTyping && <p className={'message__text'}>{message}</p>}
-                                {isTyping &&
-                                    <div className={'message__typing'}>
-                                        <span/>
-                                        <span/>
-                                        <span/>
-                                    </div>
-                                }
 
-                            </div>
+                                <div className={'message__bubble'}>
+                                    {message && !isTyping && <p className={'message__text'}>{message}</p>}
+                                    {isTyping &&
+                                        <div className={'message__typing'}>
+                                            <span/>
+                                            <span/>
+                                            <span/>
+                                        </div>
+                                    }
+
+                                </div>
+
+
                         )
                     }
 
@@ -71,6 +95,7 @@ const Message: FC<any> = ({
                         <Time date={date}/>
                     </span>}
                 </div>
+                </Dropdown>
             </div>
         </div>
     );

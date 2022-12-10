@@ -8,7 +8,7 @@ import {auth} from "@redux/actions";
 
 const LoginForm = () => {
     const dispatch = useAppDispatch();
-    const {isLoadingLogin, errorLogin} = useAppSelector(state => state.users)
+    const {isLoadingLogin, errorLogin} = useAppSelector(state => state.auth)
 
     const onLoginSubmit = (values: any) => {
         dispatch(auth.fetchLogin(values))

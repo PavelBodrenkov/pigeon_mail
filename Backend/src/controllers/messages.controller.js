@@ -19,6 +19,15 @@ class MessagesController {
             console.log('Ошибка сообщения',e)
         }
     }
+
+    async deleteMessage(req, res) {
+        try {
+            const messages = await messagesService.deleteMessage(req)
+            return res.json(messages)
+        } catch(e) {
+            console.log('Ошибка сообщения',e)
+        }
+    }
 }
 
 module.exports = new MessagesController()

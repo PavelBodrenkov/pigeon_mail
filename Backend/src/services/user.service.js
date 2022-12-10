@@ -70,7 +70,6 @@ class UserService {
     async createUser(req) {
         const {email, avatar, fullname, password, is_admin = 0} = req.body
         const user = await this.findUserByEmail(email)
-        console.log('user', user)
         if (user) {
             throw ApiError.ConflictError('Пользователь с таким email уже существует')
         }

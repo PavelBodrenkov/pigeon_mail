@@ -4,11 +4,16 @@ import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import isToday from "date-fns/isToday";
 import format from "date-fns/format";
 import {Avatar} from "antd";
+import {dialogItem} from "types/dialogTypes";
 
-const Dialogs: FC<any> = ({items}) => {
+interface DialogsProps {
+    dialogs:dialogItem[],
+}
+
+const Dialogs: FC<DialogsProps> = ({dialogs}) => {
 
     const dispatch = useAppDispatch();
-    const { user } = useAppSelector(state => state.users)
+    const { user } = useAppSelector(state => state.auth)
 
     const getMessageTime = (created_at) => {
         if (isToday(created_at)) {
@@ -36,7 +41,7 @@ const Dialogs: FC<any> = ({items}) => {
 
     return (
         <div className={'dialogs'}>
-            {items?.map((item) => {
+            {dialogs?.map((item) => {
                 const {sender, convid} = item
                 return (
                     <DialogItem
