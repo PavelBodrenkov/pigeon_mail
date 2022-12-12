@@ -47,7 +47,7 @@
 
   &__sidebar {
     width: 25%;
-    border-right: 1px solid $brown;
+    border-right: 1px solid $current_border;
     position: relative;
     overflow: hidden;
     background-color: $current_color;
@@ -66,8 +66,17 @@
       justify-content: space-between;
       padding: 21px;
       height: 58px;
-      border-bottom: 1px solid $brown;
+      //border-bottom: 1px solid $brown;
       margin-bottom: 20px;
+
+      &_new-dialog {
+        font-size: 20px;
+        color:$current_text_color;
+      }
+      &_title {
+        font-size: 20px;
+        color:$current_text_color;
+      }
 
       &-drawer {
         margin-left: 10px;
@@ -138,8 +147,8 @@
           margin-bottom: 0;
           transition: 0.1s;
           cursor: pointer;
-          border-top: 1px solid $brown;
-          border-bottom: 1px solid $brown;
+          border-top: 1px solid $current_border;
+          border-bottom: 1px solid $current_border;
           //background-color: #434343;
           &.active,
           &:hover {
@@ -153,14 +162,14 @@
 
   &__dialog {
     flex: 1;
-    background-color: #252325;
+    background-color: $current_color;
 
     &-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 12px;
-      border-bottom: 1px solid #262626;
+      border-bottom: 1px solid $current_border;
       background-color: $current_color;
 
       &-center {
