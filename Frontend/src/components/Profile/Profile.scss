@@ -1,0 +1,10 @@
+.profile {
+  padding:10px;
+  &__wrapper {
+    width: 100%;
+    &_image {
+      overflow: hidden;
+      border-radius: 50%;
+    }
+  }
+}
