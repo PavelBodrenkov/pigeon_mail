@@ -23,7 +23,8 @@ app.use(cors({
 
 app.use('/api', indexRouter);
 
-app.ws('/', (ws, req) => {
+app.ws('/test', (ws, req) => {
+    console.log('req', req)
     console.log('ПОДКЛЮЧЕНИЕ УСТАНОВЛЕНО')
     ws.send('Ты успешно подключился')
     ws.on('message', (msg) => {

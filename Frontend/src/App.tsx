@@ -11,7 +11,7 @@ function App() {
     const socket = useRef<any>()
 
     useEffect(() => {
-        socket.current = new WebSocket('ws://localhost:8080')
+        socket.current = new WebSocket('ws://localhost:8080/test')
         socket.current.onopen = () => {
             console.log('Подключение фронт')
         }
@@ -32,7 +32,7 @@ function App() {
 
     return (
         <div className="wrapper">
-            {isLoadingRefresh ? <Spinner center={true}/> :  <AppRouter/>}
+            {isLoadingRefresh ? <Spinner center={true}/> : <AppRouter/>}
         </div>
     );
 }
