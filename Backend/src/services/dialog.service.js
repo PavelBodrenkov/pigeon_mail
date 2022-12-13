@@ -19,7 +19,6 @@ class DialogService {
             ORDER BY C.unread DESC
             `;
         const allDialog = await db.query(sql)
-        console.log(allDialog.rows)
         return allDialog.rows
     }
 

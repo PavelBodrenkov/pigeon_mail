@@ -12,7 +12,7 @@ interface MessageStatusProps {
 const MessageStatus:FC<MessageStatusProps> = ({isMe, isReaded}) => {
     return (
         <div>
-            {!isMe &&
+            {isMe &&
                 (isReaded > 0 ? (
                     <img
                         className={'message__icon-readed'}

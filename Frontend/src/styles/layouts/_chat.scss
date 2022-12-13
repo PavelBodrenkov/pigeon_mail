@@ -11,8 +11,6 @@
 
   & .ant-popover-inner {
     padding: 6px;
-    //background-color: rgba(255,255,255,0.733333);
-    //backdrop-filter: blur(10px);
     background-color: #434343;
   }
 }
@@ -41,10 +39,7 @@
   display: flex;
   height: 100%;
   background-color: #fff;
-  //max-width: 1140px;
-  //margin: 0 auto;
-  //box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-
+  $item: &;
   &__sidebar {
     width: 25%;
     border-right: 1px solid $current_border;
@@ -156,7 +151,6 @@
     }
   }
 
-
   &__dialog {
     flex: 1;
     background-color: $current_color;
@@ -165,20 +159,30 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px;
+      padding: 6px 12px 8px 12px;
       border-bottom: 1px solid $current_border;
       background-color: $current_color;
+
+      &_wrapper {
+        display: flex;
+      }
 
       &-center {
         text-align: center;
       }
 
       &-username {
-        font-weight: 500;
+        font-weight: 700;
         display: block;
         margin-bottom: 5px;
         color: $white_blue;
         cursor: pointer;
+        font-size: 19.0667px;
+        line-height: 25px;
+      }
+
+      &status {
+        text-align: left;
       }
     }
 

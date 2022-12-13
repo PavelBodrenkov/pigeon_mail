@@ -4,12 +4,11 @@ import classNames from "classnames";
 import readedSvg from '../../assets/img/readed.svg';
 // @ts-ignore
 import noReadedSvg from '../../assets/img/noreaded.svg';
-
-import {UserOutlined} from '@ant-design/icons';
-import {Avatar, Dropdown} from "antd";
+import {Dropdown} from "antd";
 import './Message.scss';
 import {Time, MessageStatus} from "@components/index";
 import type {MenuProps} from 'antd';
+import {getAvatar} from "@utils/services/services";
 
 interface MessageProps {
     avatar: string,
@@ -33,7 +32,6 @@ const Message: FC<any> = ({
                               isMe,
                               isTyping = false,
                               readed,
-                              getAvatar,
                               user,
                               fullname,
                               id,
@@ -56,15 +54,15 @@ const Message: FC<any> = ({
         )}>
             <div className={'message__content'}>
                 <MessageStatus isMe={isMe} isReaded={readed}/>
-                <div className={'message__avatar'}>
-                    {isMe ? getAvatar(user.avatar, user.fullname, 33) : getAvatar(avatar, fullname, 33)}
-                    {/*<Avatar size={33} src={avatar} className={'avatar'}/>*/}
-                </div>
+                {/*<div className={'message__avatar'}>*/}
+                    {isMe ? getAvatar(user.avatar, user.fullname, 33, false)
+                        : getAvatar(avatar, fullname, 33, false)
+                    }
+                {/*</div>*/}
                 <Dropdown menu={{items}} trigger={['contextMenu']}>
-                <div className={'message__info'}>
-                    {
-                        message && (
-
+                    <div className={'message__info'}>
+                        {
+                            message && (
                                 <div className={'message__bubble'}>
                                     {message && !isTyping && <p className={'message__text'}>{message}</p>}
                                     {isTyping &&
@@ -74,27 +72,24 @@ const Message: FC<any> = ({
                                             <span/>
                                         </div>
                                     }
-
                                 </div>
-
-
-                        )
-                    }
-
-                    {/*<div className={'message__attachments'}>*/}
-                    {/*    /!*{attachments && attachments.map((photo: { filename: string, url: string, id: number }) => {*!/*/}
-                    {/*    /!*    const {filename, url, id} = photo*!/*/}
-                    {/*    /!*    return (*!/*/}
-                    {/*    /!*        <div className={'message__attachments-item'} key={id}>*!/*/}
-                    {/*    /!*            <img src={url} alt={filename}/>*!/*/}
-                    {/*    /!*        </div>*!/*/}
-                    {/*    /!*    )*!/*/}
-                    {/*    /!*})}*!/*/}
-                    {/*</div>*/}
-                    {date && <span className={'message__date'}>
+                            )
+                        }
+                        {/*<div className={'message__attachments'}>*/}
+                        {/*    /!*{attachments && attachments.map((photo: { filename: string, url: string, id: number }) => {*!/*/}
+                        {/*    /!*    const {filename, url, id} = photo*!/*/}
+                        {/*    /!*    return (*!/*/}
+                        {/*    /!*        <div className={'message__attachments-item'} key={id}>*!/*/}
+                        {/*    /!*            <img src={url} alt={filename}/>*!/*/}
+                        {/*    /!*        </div>*!/*/}
+                        {/*    /!*    )*!/*/}
+                        {/*    /!*})}*!/*/}
+                        {/*</div>*/}
+                        {date && <span className={'message__date'}>
                         <Time date={date}/>
-                    </span>}
-                </div>
+                        </span>
+                        }
+                    </div>
                 </Dropdown>
             </div>
         </div>

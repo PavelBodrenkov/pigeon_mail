@@ -1,7 +1,6 @@
-import React, {FC, useEffect, useRef} from 'react';
-import {useAppDispatch, useAppSelector} from "../hooks/redux";
-import {messagesAction} from "@redux/actions";
-import {Spinner} from '@components/Spinner';
+import React, {FC} from 'react';
+import {useAppSelector} from "../hooks/redux";
+
 import {Alert, Empty} from "antd";
 
 import {Messages as BaseMessages} from '@components/index'
@@ -9,8 +8,6 @@ import {Messages as BaseMessages} from '@components/index'
 const Messages: FC<any> = () => {
 
     const {messages, isLoadingGetMessage, errorGetMessage} = useAppSelector(state => state.messages)
-
-    console.log('messages', messages)
 
     return (
         <>

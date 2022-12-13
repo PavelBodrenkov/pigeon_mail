@@ -4,29 +4,29 @@ import {MessageStatus} from "@components/index"
 import './DialogItem.scss';
 import {Link} from "react-router-dom";
 import {useAppSelector} from "../../hooks/redux";
+import {getAvatar, getMessageTime} from "@utils/services/services";
 
 const DialogItem: FC<any> = ({
                                  item,
-                                 isMe,
-                                 getAvatar,
-                                 getMessageTime
+                                 isMe
                              }) => {
     const {avatar, convid, unread, date, fullname, message, readed} = item
     const {currentDialog} = useAppSelector(state => state.dialogs)
 
     const activeDialog = currentDialog?.convid && currentDialog?.convid === convid
-
+const test = true
     return (
         <Link to={`/#${convid}`}>
             <div
                 className={classNames('dialogs__item',
-                    {'active': activeDialog}
-                    // {'dialogs__item--online': user.isOnline}
+                    {'active': activeDialog},
+                     // {'dialogs__item--online': test}
                 )}
             >
-                <div className={'dialogs__item--avatar'}>
-                    {getAvatar(avatar, fullname)}
-                </div>
+                {getAvatar(avatar, fullname, 40, test)}
+                {/*<div className={'dialogs__item--avatar'}>*/}
+                {/*    {getAvatar(avatar, fullname, 40, test)}*/}
+                {/*</div>*/}
                 <div className={'dialogs__item-info'}>
                     <div className={'dialogs__item-info-top'}>
                         <b>{fullname}</b>
