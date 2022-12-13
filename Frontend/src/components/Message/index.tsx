@@ -8,7 +8,7 @@ import noReadedSvg from '../../assets/img/noreaded.svg';
 import {UserOutlined} from '@ant-design/icons';
 import {Avatar, Dropdown} from "antd";
 import './Message.scss';
-import {Time, MessageStatus, Popover} from "@components/index";
+import {Time, MessageStatus} from "@components/index";
 import type {MenuProps} from 'antd';
 
 interface MessageProps {

@@ -1,0 +1,77 @@
+@import '../../styles/variables';
+
+.left-panel {
+
+  background-color: $current_color;
+  border-right: 1px solid $current_border;
+
+  &__wrapper {
+    width: 100px;
+    $item: &;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    &-pane {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      width: 100%;
+
+      &::before {
+        content: '';
+        width: 2.12px;
+        border-radius: 3px;
+        height: 54px;
+        margin-left: 5px;
+
+      }
+
+      &_content {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        flex: 1;
+        padding: 13px 13px 13px 5px;
+
+        b {
+          margin-top: 3px;
+          font-weight: 500;
+          font-size: 13px;
+          color: $current_text_color;
+        }
+
+        &_icon {
+          font-size: 20px;
+          color: $current_text_color;
+        }
+      }
+
+      &--active {
+        b {
+          color: #fff;
+        }
+
+        #{$item}-pane {
+          &_content {
+            &_icon {
+              color: #fff;
+            }
+          }
+        }
+
+        &::before {
+          background: linear-gradient(135deg, #2AFADF 0%, #4C83FF 100%)
+        }
+
+      }
+    }
+  }
+
+  .active {
+
+  }
+}

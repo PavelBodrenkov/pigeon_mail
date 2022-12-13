@@ -13,3 +13,5 @@ export {default as HoverButton} from './HoverButton';
 export {default as SideBar} from './SiderBar';
 export {default as Popover} from './Popover';
 export {default as Sider} from './Sider';
+export {default as LeftPanel} from './LeftPanel';
+export {default as Profile} from './Profile';

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {SidebarHeader} from "@components/index";
-import {Input} from "antd";
+import {Input, Tabs} from "antd";
 import {SearchOutlined} from "@ant-design/icons";
 import {Dialogs} from "@containers/index";
 import {fetchDialogs, fetchUsers} from "@redux/actions";
@@ -23,7 +23,7 @@ const SiderBar = () => {
     }
 
     return (
-        <div className={'chat__sidebar'}>
+        <>
             <SidebarHeader/>
             <div className={'chat__sidebar-search'}>
                 <Input
@@ -35,7 +35,7 @@ const SiderBar = () => {
             <div className={'chat__sidebar-dialogs'}>
                 <Dialogs filtered={filtered}/>
             </div>
-        </div>
+        </>
     );
 };
 
