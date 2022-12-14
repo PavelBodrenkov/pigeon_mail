@@ -9,22 +9,6 @@ const Messages = ({messages}) => {
     const dispatch = useAppDispatch();
     const { user } = useAppSelector(state => state.auth)
 
-    const getAvatar = (avatar: string, fullname:string, size?:number) => {
-        if (avatar) {
-            return (
-                <Avatar size={size || 40} src={avatar} className={'avatar'}/>
-            )
-        } else {
-            let tmp = fullname.split('')[0].toUpperCase()
-            return <Avatar
-                size={size || 40}
-                className={'avatar'}
-                style={{backgroundColor: '#f56a00'}}>
-                {tmp}
-            </Avatar>
-        }
-    }
-
     const handleDeleteMessage = (id:number) => {
         dispatch(messagesAction.deleteMessage(id))
     }
@@ -48,7 +32,6 @@ const Messages = ({messages}) => {
                             message={message}
                             isMe={user.id === sender}
                             readed={readed}
-                            getAvatar={getAvatar}
                             user={user}
                             handleDeleteMessage={handleDeleteMessage}
                         />

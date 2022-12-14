@@ -1,5 +1,5 @@
 import React, {useEffect, useRef} from 'react';
-import {ChatInput, HoverButton, LeftPanel, Profile, SideBar, Sider} from "@components/index";
+import {ChatInput, LeftPanel, Profile, SideBar, Sider} from "@components/index";
 import {Messages, Status} from "@containers/index";
 import './Home.scss';
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
@@ -10,7 +10,6 @@ import {messagesAction} from "@redux/actions";
 // @ts-ignore
 import Background from '../../assets/img/background-chat-vk-75.jpg';
 import {Button, Form, Image, Input, Layout, Space, Tabs} from "antd";
-import {ArrowLeftOutlined} from "@ant-design/icons";
 
 const Home = () => {
     const location = useLocation();

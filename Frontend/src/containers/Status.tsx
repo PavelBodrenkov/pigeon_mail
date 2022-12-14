@@ -11,7 +11,11 @@ const Status = () => {
         return null;
     }
 
-    return <BaseStatus online={true} fullname={currentDialog?.fullname} />
+    return <BaseStatus
+        online={true}
+        currentDialog={currentDialog}
+
+    />
 };
 
 export default Status;

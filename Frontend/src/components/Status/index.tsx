@@ -5,8 +5,10 @@ import {EllipsisOutlined} from "@ant-design/icons";
 import {useAppDispatch} from "../../hooks/redux";
 import {setInfoPartner} from "@redux/reducers/dialogs";
 import {Form} from "antd";
+import {getAvatar} from "@utils/services/services";
 
-const Status: FC<{ online?: boolean, fullname:string }> = ({online, fullname}) => {
+const Status: FC<{ online?: boolean, currentDialog:any}> = ({online, currentDialog}) => {
+    const {fullname, avatar} = currentDialog
     const dispatch = useAppDispatch();
 
     const handleInfoPartner = () => {
@@ -15,16 +17,18 @@ const Status: FC<{ online?: boolean, fullname:string }> = ({online, fullname}) =
 
     return (
         <div className={'chat__dialog-header'}>
-            <div/>
-            <div className={'chat__dialog-header-center'}>
-                <b className={'chat__dialog-header-username'} onClick={handleInfoPartner}>{fullname}</b>
-                <div className={'chat__dialog-header-status'}>
+           <div className={'chat__dialog-header_wrapper'}>
+               {getAvatar(avatar, fullname, 40)}
+               <div className={'chat__dialog-header-center'}>
+                   <b className={'chat__dialog-header-username'} onClick={handleInfoPartner}>{fullname}</b>
+                   <div className={'chat__dialog-header-status'}>
                      <span className={classNames('status', {"status--online": online})}>
                             {online ? 'онлайн' : 'офлайн'}
                      </span>
-                </div>
-            </div>
-            <EllipsisOutlined style={{fontSize: 22}}/>
+                   </div>
+               </div>
+           </div>
+            <EllipsisOutlined style={{fontSize: 22, color:'white'}}/>
         </div>
     )
 

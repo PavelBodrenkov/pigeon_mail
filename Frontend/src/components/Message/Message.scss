@@ -17,9 +17,6 @@
   }
 
   &__avatar {
-    display: flex;
-    flex-direction: column-reverse;
-
     .avatar {
       margin-right: 13px;
       margin-bottom: 23px;
@@ -27,11 +24,14 @@
   }
 
   &__bubble {
-    background-color: #434343;
-    //box-shadow: 0 5px 5px rgba(54, 116, 255, 0.196733);
-    border-radius: 12px 12px 12px 0;
-    padding: 5px 8px 5px 8px;
-    margin-bottom: 5px;
+    //background-color: #434343;
+    ////box-shadow: 0 5px 5px rgba(54, 116, 255, 0.196733);
+    //border-radius: 12px 12px 12px 0;
+    //padding: 5px 8px 5px 8px;
+    //margin-bottom: 5px;
+    background-color: #424242;
+    padding: 7px 16px 7px 12px;
+    border-radius: 3px;
   }
 
   &__date {
@@ -41,7 +41,7 @@
   }
 
   &__text {
-    color: #fff;
+    color: #FAFAFA;
     line-height: 20px;
   }
 
@@ -88,12 +88,12 @@
     }
 
       #{$self}__bubble {
-      background-color: #9254de;
-      border: 1px solid #9254de;
-      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.0220444);
+      background-color: #D4EBFB;
+      //border: 1px solid #D4EBFB;
+      //box-shadow: 0 4px 4px rgba(0, 0, 0, 0.0220444);
 
       #{$self}__text {
-        color: $message-typing-blue;
+        color: #242424;
       }
     }
   }
