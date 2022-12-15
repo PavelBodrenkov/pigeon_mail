@@ -46,8 +46,8 @@ class MessageService {
 
     //Создание сообщения
     async createMessage(req) {
-        const {conv_id, message, partner} = req.body
-        const {id} = req.user
+        const {conv_id, message, partner, id} = req
+        // const {id} = req.user
         //Создаем сообщение
         const messageSQL = `INSERT INTO messages (conv_id, sender, addressee, readed, sender_delete,
                                                   addressee_delete, message, date)

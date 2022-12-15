@@ -11,6 +11,7 @@ const SiderBar = () => {
 
     const {dialogs} = useAppSelector(state => state.dialogs)
     const [filtered, setFiltered] = useState<dialogItem[]>([])
+    console.log('dialogs', dialogs)
 
     useEffect(() => {
         setFiltered(dialogs)

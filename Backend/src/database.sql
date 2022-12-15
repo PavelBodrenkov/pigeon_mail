@@ -6,6 +6,7 @@ create TABLE users(
     color_avatar VARCHAR(100),
     fullname VARCHAR(255),
     password VARCHAR(255) DEFAULT(null),
+    is_online SMALLINT DEFAULT(0),
     is_admin SMALLINT DEFAULT(0),
     confirmed DATE DEFAULT(null),
     confirmed_hash VARCHAR(255),
@@ -16,6 +17,9 @@ create TABLE users(
     updated_at TIMESTAMP DEFAULT(null),
     deleted_at TIMESTAMP DEFAULT(null)
 )
+
+ALTER TABLE users
+ADD COLUMN is_online SMALLINT DEFAULT(0)
 
 -- Диологи
 create TABLE conversation (

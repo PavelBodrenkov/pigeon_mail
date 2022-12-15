@@ -9,7 +9,7 @@ export const getAvatar = (
     avatar: string,
     fullname: string,
     size?:number,
-    online:boolean = true
+    online:number = 0
 ) => {
     if (avatar) {
         return (
@@ -19,7 +19,7 @@ export const getAvatar = (
         let tmp = fullname.split('')[0].toUpperCase()
         return (
             <div className={classNames('custom-avatar',
-                {'custom-avatar--online': online})}
+                {'custom-avatar--online': online > 0})}
             >
                 <div className={'custom-avatar__content'}>
                     <Avatar

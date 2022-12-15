@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import './ChatInput.scss';
 import {AudioOutlined, CameraOutlined, SendOutlined, SmileOutlined} from "@ant-design/icons";
 import {Input, Form} from "antd";
 import {messagesAction} from "@redux/actions";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {setMessages} from "@redux/reducers/messages";
+import socket from "@utils/socket/socket";
 
 const ChatInput = () => {
     const { currentDialog } = useAppSelector(state => state.dialogs)
@@ -20,14 +21,17 @@ const ChatInput = () => {
         e.stopPropagation()
         if(value !== '') {
             const data = {
-                conv_id:currentDialog.convid || 0,
+                room:currentDialog.convid || 0,
                 message:value,
-                partner:id === sender ? userid : sender
+                partner:id === sender ? userid : sender,
+                id:currentDialog.convid,
+                method:'sendMessage'
             }
-            dispatch(messagesAction.sendMessage(data))
+            // dispatch(messagesAction.sendMessage(data))
             form.setFieldsValue({
                 message: ''
             });
+            socket.send(JSON.stringify(data))
         }
     }
 

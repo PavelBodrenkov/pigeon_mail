@@ -55,8 +55,8 @@ const Message: FC<any> = ({
             <div className={'message__content'}>
                 <MessageStatus isMe={isMe} isReaded={readed}/>
                 {/*<div className={'message__avatar'}>*/}
-                    {isMe ? getAvatar(user.avatar, user.fullname, 33, false)
-                        : getAvatar(avatar, fullname, 33, false)
+                    {isMe ? getAvatar(user.avatar, user.fullname, 33, 0)
+                        : getAvatar(avatar, fullname, 33, 0)
                     }
                 {/*</div>*/}
                 <Dropdown menu={{items}} trigger={['contextMenu']}>
