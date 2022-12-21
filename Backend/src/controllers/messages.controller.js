@@ -11,10 +11,11 @@ class MessagesController {
         }
     }
 
-    async createMessage(req, res) {
+    async createMessage(req) {
         try {
             const messages = await messagesService.createMessage(req)
-            return  res.json(messages)
+            // return  res.json(messages)
+            return  messages
         } catch (e) {
             console.log('Ошибка сообщения',e)
         }

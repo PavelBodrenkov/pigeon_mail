@@ -10,7 +10,7 @@ const DialogItem: FC<any> = ({
                                  item,
                                  isMe
                              }) => {
-    const {avatar, convid, unread, date, fullname, message, readed} = item
+    const {avatar, convid, unread, date, fullname, message, readed, is_online} = item
     const {currentDialog} = useAppSelector(state => state.dialogs)
 
     const activeDialog = currentDialog?.convid && currentDialog?.convid === convid
@@ -23,7 +23,7 @@ const test = true
                      // {'dialogs__item--online': test}
                 )}
             >
-                {getAvatar(avatar, fullname, 40, test)}
+                {getAvatar(avatar, fullname, 40, is_online)}
                 {/*<div className={'dialogs__item--avatar'}>*/}
                 {/*    {getAvatar(avatar, fullname, 40, test)}*/}
                 {/*</div>*/}

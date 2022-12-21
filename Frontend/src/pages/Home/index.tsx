@@ -18,14 +18,14 @@ const Home = () => {
     const {pane} = useAppSelector(state => state.leftPanel)
     const {messages} = useAppSelector(state => state.messages)
     const {convid} = currentDialog
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const messagesRef = useRef<any>(null);
 
-    useEffect(() => {
-        if (localStorage.getItem('currentDialog') && dialogs.length !== 0) {
-            navigate(`#${Number(localStorage.getItem('currentDialog'))}`)
-        }
-    }, [dialogs])
+    // useEffect(() => {
+    //     if (localStorage.getItem('currentDialog') && dialogs.length !== 0) {
+    //         navigate(`#${Number(localStorage.getItem('currentDialog'))}`)
+    //     }
+    // }, [dialogs])
 
     useEffect(() => {
         if (messagesRef.current) {

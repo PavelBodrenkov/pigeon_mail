@@ -5,7 +5,6 @@ import {Auth, Home} from "@pages/index";
 import GuestRoute from "@routes/AppRouter/GuestRoute";
 import {Spinner} from "@components/Spinner";
 
-
 const AppRouter = () => {
     const loading = false
     return loading ?
@@ -16,15 +15,7 @@ const AppRouter = () => {
         (
             <Routes>
                 <Route
-                    path={HOME}
-                    element={
-                        <PrivateRoute>
-                            <Home/>
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path={HOME + '/#:id'}
+                    path={'/*'}
                     element={
                         <PrivateRoute>
                             <Home/>
