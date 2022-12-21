@@ -16,10 +16,10 @@ const Profile = () => {
     const logout = () => {
         dispatch(auth.fetchLogout())
         dispatch(setCurrentDialog({}))
-        const tmp = online_users
-        console.log('tmp1', tmp)
-        delete tmp[user.id]
-        console.log('tm2', tmp)
+        // const tmp = {...online_users}
+        // console.log('tmp1', tmp)
+        // delete tmp[user.id]
+        // console.log('tm2', tmp)
         // dispatch(setOnlineUsers(tmp))
 
     }

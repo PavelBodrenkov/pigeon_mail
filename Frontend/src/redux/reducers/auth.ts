@@ -88,7 +88,7 @@ const authSlice = createSlice( {
             state.isAuth = false;
         },
 
-        [auth.fetchLogout.fulfilled.type]: (state, action:PayloadAction<IUser>) => {
+        [auth.fetchLogout.fulfilled.type]: (state) => {
             state.isLoadingLogout = false
             state.errorLogout = '';
             state.user = {} as IUser;

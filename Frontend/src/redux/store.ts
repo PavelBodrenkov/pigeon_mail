@@ -3,7 +3,11 @@ import {configureStore} from "@reduxjs/toolkit";
 
 export const store = () =>  {
     return configureStore({
-        reducer: rootReducer
+        reducer: rootReducer,
+        middleware: (getDefaultMiddleware) =>
+            getDefaultMiddleware({
+                serializableCheck: false,
+            }),
     })
 }
 
