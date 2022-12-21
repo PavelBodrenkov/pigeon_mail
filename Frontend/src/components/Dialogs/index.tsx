@@ -12,20 +12,19 @@ interface DialogsProps {
 
 const Dialogs: FC<DialogsProps> = ({dialogs}) => {
 
-    const dispatch = useAppDispatch();
     const { user } = useAppSelector(state => state.auth)
-
-
+    const { online_users } = useAppSelector(state => state.users)
 
     return (
         <div className={'dialogs'}>
             {dialogs?.map((item) => {
-                const {sender, convid} = item
+                const {sender, convid, userid} = item
                 return (
                     <DialogItem
                         key={convid}
                         item={item}
                         isMe={user.id === sender}
+                        is_online={online_users[userid] || 0}
                     />
                 )
             })

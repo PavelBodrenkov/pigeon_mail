@@ -8,9 +8,10 @@ import {getAvatar, getMessageTime} from "@utils/services/services";
 
 const DialogItem: FC<any> = ({
                                  item,
-                                 isMe
+                                 isMe,
+                                 is_online
                              }) => {
-    const {avatar, convid, unread, date, fullname, message, readed, is_online} = item
+    const {avatar, convid, unread, date, fullname, message, readed} = item
     const {currentDialog} = useAppSelector(state => state.dialogs)
 
     const activeDialog = currentDialog?.convid && currentDialog?.convid === convid

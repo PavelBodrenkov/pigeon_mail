@@ -6,7 +6,7 @@ class DialogService {
         const userId = req.user.id
         const sql =
             `
-            SELECT U.id as userId, U.fullname, U.avatar, U.is_online, C.id as convId, C.sender, C.unread, M.message, M.date, M.readed, C.last_message_id
+            SELECT U.id as userId, U.fullname, U.avatar, C.id as convId, C.sender, C.unread, M.message, M.date, M.readed, C.last_message_id
             FROM users as U, conversation as C
             LEFT JOIN messages as M ON(C.last_message_id = M.id)
             WHERE (C.first = ${userId} OR C.second = ${userId})

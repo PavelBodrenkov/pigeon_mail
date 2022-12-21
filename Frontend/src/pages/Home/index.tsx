@@ -10,6 +10,8 @@ import {messagesAction} from "@redux/actions";
 // @ts-ignore
 import Background from '../../assets/img/background-chat-vk-75.jpg';
 import {Button, Form, Image, Input, Layout, Space, Tabs} from "antd";
+import socket from '../../utils/socket/socket';
+import {setOnlineUsers} from "@redux/reducers/users";
 
 const Home = () => {
     const location = useLocation();
@@ -17,21 +19,24 @@ const Home = () => {
     const {dialogs, currentDialog} = useAppSelector(state => state.dialogs)
     const {pane} = useAppSelector(state => state.leftPanel)
     const {messages} = useAppSelector(state => state.messages)
+    const {user} = useAppSelector(state => state.auth)
     const {convid} = currentDialog
-    const navigate = useNavigate();
     const messagesRef = useRef<any>(null);
-
-    // useEffect(() => {
-    //     if (localStorage.getItem('currentDialog') && dialogs.length !== 0) {
-    //         navigate(`#${Number(localStorage.getItem('currentDialog'))}`)
-    //     }
-    // }, [dialogs])
 
     useEffect(() => {
         if (messagesRef.current) {
             messagesRef.current.scrollTo(0, 999999);
         }
     }, [messages]);
+
+    useEffect(() => {
+        socket.emit('connection', user)
+
+        socket.on('connection', (msg) => {
+            dispatch(setOnlineUsers(msg))
+            console.log('msg', msg)
+        })
+    }, [])
 
     useEffect(() => {
         if (location) {
@@ -41,6 +46,7 @@ const Home = () => {
                 localStorage.setItem('currentDialog', String(dialog.convid))
                 dispatch(messagesAction.fetchMessages(dialog.userid))
                 dispatch(setCurrentDialog(dialog))
+                socket.emit('joinRoom', { username:user.fullname, user_id:user.id, room:dialog.convid });
             }
         }
     }, [location]);

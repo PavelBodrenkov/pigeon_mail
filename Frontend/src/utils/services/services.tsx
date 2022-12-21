@@ -6,7 +6,7 @@ import classNames from "classnames";
 import './services.scss';
 
 export const getAvatar = (
-    avatar: string,
+    avatar: string | null,
     fullname: string,
     size?:number,
     online:number = 0

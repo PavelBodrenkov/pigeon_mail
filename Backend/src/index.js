@@ -1,4 +1,3 @@
-const ws = require('ws')
 const express = require('express')
 const { errors } = require('celebrate');
 const cookieParser = require('cookie-parser')
@@ -8,12 +7,25 @@ const bodyParser = require("body-parser");
 require('dotenv').config()
 const PORT = process.env.PORT || 8080;
 const errorMiddleware = require('./middlewares/error.middleware');
-const messageController = require("./controllers/messages.controller");
+const messageService = require('./services/message.service')
+const http = require('http');
+const {Server} = require('socket.io');
+const {
+    getActiveUser,
+    exitRoom,
+    newUser,
+    getIndividualRoomUsers, onlineUser
+} = require('./helpers/userHelper');
+const formatMessage = require("./helpers/formatDate");
 
 const app = express()
-const WSServer = require('express-ws')(app)
-const aWss = WSServer.getWss();
-
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin:'http://localhost:3000',
+        methods:['GET', "POST"]
+    }
+})
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,66 +35,68 @@ app.use(cors({
     origin:['http://localhost:3000', 'http://localhost:3001']
 }));
 
-app.use('/api', indexRouter);
+io.on('connection', socket => {
 
-const users = {}
-app.ws('/', (ws, req) => {
-
-    ws.on('message', (msg) => {
-        msg = JSON.parse(msg)
-        console.log('msg', msg)
-
-        switch (msg.method) {
-            case "connection":
-                console.log('ПОДКЛЮЧЕНИЕ УСТАНОВЛЕНО!')
-                connectionHandler(ws, msg)
-                break
-            case "sendMessage":
-                connectRoom(ws, msg)
-                break
-        }
+    socket.on('connection', (user) => {
+        socket.emit('connection', onlineUser(user))
     })
 
-    // ws.on('message', (msg) => {
-    //     msg = JSON.parse(msg)
-    //     let userId = msg.userId; // GET USER ID
-    //     if (!users[userId]) users[userId] = [];
-    //     users[userId].push(ws.id);
-    //     switch (msg.method) {
-    //         case "connection":
-    //             // connectionHandler(ws, msg)
-    //             break
-    //     }
-    //
-    //     // let tmp = messageController.createMessage(JSON.parse(msg))
-    //     // ws.send(JSON.stringify(tmp))
-    // })
-})
+    socket.on('joinRoom', ({ username, user_id, room }) => {
+        const user = newUser(socket.id, username, user_id, room);
+
+        socket.join(user.room);
+
+        // General welcome
+        socket.emit('message_info', formatMessage("WebCage", 'Messages are limited to this room! '));
+
+        //Broadcast everytime users connects
+        socket.broadcast
+            .to(user.room)
+            .emit(
+                'message_info',
+                formatMessage("WebCage", `${user.username} has joined the room`)
+            );
+
+        // Current active users and room name
+        io.to(user.room).emit('roomUsers', {
+            room: user.room,
+            users: getIndividualRoomUsers(user.room)
+        });
+    });
+
+    // Listen for client message
+    socket.on('chatMessage', msg => {
+        const user = getActiveUser(socket.id);
+        messageService.createMessage(msg)
+            .then((res) => {
+                console.log('res', res)
+                io.to(user.room).emit('message', res);
+            })
+    });
+
+    // Runs when client disconnects
+    socket.on('disconnect', () => {
+        const user = exitRoom(socket.id);
+
+        if (user) {
+            io.to(user.room).emit(
+                'message',
+                formatMessage("WebCage", `${user.username} has left the room`)
+            );
+
+            // Current active users and room name
+            io.to(user.room).emit('roomUsers', {
+                room: user.room,
+                users: getIndividualRoomUsers(user.room)
+            });
+        }
+    });
+});
+
+
+app.use('/api', indexRouter);
 
 app.use(errorMiddleware);
 app.use(errors());
 
-app.listen(PORT, () => console.log(`Сервер запущен на порту ${PORT}`))
-
-const connectionHandler = (ws, msg) => {
-    ws.id = msg.id
-    broadcastConnection(ws, msg)
-}
-
-const connectRoom = (ws, msg) => {
-    ws.room = msg.room
-    broadcastConnection(ws, msg)
-}
-
-const broadcastConnection = (ws, msg) => {
-    aWss.clients.forEach(client => {
-        console.log('client.room', client.room)
-        console.log('client.id', client.id)
-
-        if(client.id === msg.id) {
-            client.send(JSON.stringify(msg))
-        } else if (client.room === msg.room) {
-            client.send(JSON.stringify(msg))
-        }
-    })
-}
+server.listen(PORT, () => console.log(`Сервер запущен на порту ${PORT}`))

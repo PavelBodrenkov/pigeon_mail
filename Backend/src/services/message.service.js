@@ -6,6 +6,7 @@ class MessageService {
     async getMessagesByDialog(req) {
         const userId = req.user.id
         const partnerId = req.params.id
+        console.log(userId, partnerId)
 
         if (userId !== partnerId) {
             const sql = `
@@ -46,13 +47,13 @@ class MessageService {
 
     //Создание сообщения
     async createMessage(req) {
-        const {conv_id, message, partner, id} = req
+        const {conv_id, message, partner, sender_id} = req
         // const {id} = req.user
         //Создаем сообщение
         const messageSQL = `INSERT INTO messages (conv_id, sender, addressee, readed, sender_delete,
                                                   addressee_delete, message, date)
                             VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`
-        const row_messages = await db.query(messageSQL, [conv_id, id, partner, 0, 0, 0, message, new Date()])
+        const row_messages = await db.query(messageSQL, [conv_id, sender_id, partner, 0, 0, 0, message, new Date()])
 
         //Получаем нужное сообщение
         const returnMessage = `SELECT M.id, M.date, M.message, M.sender, U.avatar, U.fullname
@@ -65,12 +66,12 @@ class MessageService {
         const updateConversationSQL = `
             UPDATE conversation
             SET last_message_id = ${row_messages.rows[0].id},
-                sender          = ${id},
+                sender          = ${sender_id},
                 unread          = (SELECT COUNT(*)
                                    FROM messages as M
                                    WHERE M.conv_id = ${conv_id}
                                      AND M.readed = 0
-                                     AND M.sender = ${id})
+                                     AND M.sender = ${sender_id})
             WHERE id = ${conv_id} RETURNING *
         `
         await db.query(updateConversationSQL);

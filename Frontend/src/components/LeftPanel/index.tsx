@@ -5,8 +5,12 @@ import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 import {setPane} from "@redux/reducers/leftPanel";
 import classNames from "classnames";
 import {Avatar} from "antd";
+import {getAvatar} from "@utils/services/services";
 
 const LeftPanel = ({pane}) => {
+
+    const {user} = useAppSelector(state => state.auth)
+    const {online_users} = useAppSelector(state => state.users)
 
     const dispatch = useAppDispatch();
 
@@ -36,7 +40,7 @@ const LeftPanel = ({pane}) => {
         {
             key: 'profile',
             name: 'Профиль',
-            icon: <Avatar size={'default'} icon={<UserOutlined/>}/>,
+            icon: getAvatar(user.avatar, user.fullname, 40, online_users[user.id] ? 1 : 0),
         }
     ]
 

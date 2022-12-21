@@ -1,7 +1,6 @@
 import React from 'react';
 import {Message} from "@components/index";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import {Avatar} from "antd";
 import {messagesAction} from "@redux/actions";
 
 const Messages = ({messages}) => {

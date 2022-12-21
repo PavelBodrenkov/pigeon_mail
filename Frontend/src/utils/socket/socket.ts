@@ -1,3 +1,5 @@
-const socket = new WebSocket('ws://localhost:8080/')
+import * as io from "socket.io-client";
+
+const socket:any = io.connect('http://localhost:8080')
 
 export default socket

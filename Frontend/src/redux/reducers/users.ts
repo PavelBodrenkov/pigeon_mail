@@ -4,6 +4,7 @@ import {IUser} from "@utils/api/models/IUser";
 
 interface initialState {
     users:IUser[],
+    online_users:{[x:number]: number | string},
     isLoadingUsers:boolean,
     errorUsers:{
         message:string,
@@ -13,6 +14,7 @@ interface initialState {
 
 const initialState:initialState = {
     users:[] as IUser[],
+    online_users:{},
     isLoadingUsers:false,
     errorUsers:{
         message:'',
@@ -24,6 +26,9 @@ const usersSlice = createSlice( {
     name:'users',
     initialState,
     reducers: {
+        setOnlineUsers(state, action) {
+            state.online_users = action.payload
+        }
     },
     extraReducers: {
         [fetchUsers.fetchUsers.fulfilled.type]: (state, action:PayloadAction<IUser[]>) => {
@@ -48,4 +53,4 @@ const usersSlice = createSlice( {
 })
 
 export default usersSlice.reducer
-// export const {setUser, setAuth, setError} = messagesSlice.actions
+export const {setOnlineUsers} = usersSlice.actions

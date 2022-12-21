@@ -21,17 +21,16 @@ const ChatInput = () => {
         e.stopPropagation()
         if(value !== '') {
             const data = {
-                room:currentDialog.convid || 0,
+                conv_id:currentDialog.convid || 0,
                 message:value,
                 partner:id === sender ? userid : sender,
-                id:currentDialog.convid,
-                method:'sendMessage'
+                sender_id:user.id
             }
             // dispatch(messagesAction.sendMessage(data))
             form.setFieldsValue({
                 message: ''
             });
-            socket.send(JSON.stringify(data))
+            socket.emit('chatMessage', data);
         }
     }
 
