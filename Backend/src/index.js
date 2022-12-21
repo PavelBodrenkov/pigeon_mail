@@ -1,16 +1,16 @@
-const ws = require('ws')
-const express = require('express')
+const ws = require('ws');
+const express = require('express');
 const { errors } = require('celebrate');
-const cookieParser = require('cookie-parser')
-const indexRouter = require('./routes/index.routes')
+const cookieParser = require('cookie-parser');
+const indexRouter = require('./routes/index.routes');
 const cors = require("cors");
 const bodyParser = require("body-parser");
 require('dotenv').config()
 const PORT = process.env.PORT || 8080;
 const errorMiddleware = require('./middlewares/error.middleware');
 
-const app = express()
-const WSServer = require('express-ws')(app)
+const app = express();
+const WSServer = require('express-ws')(app);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

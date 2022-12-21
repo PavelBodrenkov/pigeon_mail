@@ -122,6 +122,7 @@ class MessageService {
                             WHERE id = ${lastMessage.rows[0].conv_id}`)
 
             return result.rows[0]
+
         }
     }
 }
