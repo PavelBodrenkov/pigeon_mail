@@ -17,7 +17,7 @@ const SidebarHeader: FC<any> = () => {
         userId: 0,
         message: ''
     })
-
+    console.log('users', users)
     const handleVisiblePopover = (newVisible: boolean, key) => {
         switch (key) {
             case 'newDialog': {

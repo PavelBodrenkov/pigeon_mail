@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {dialogItem} from '../../types/dialogTypes';
 import {fetchDialogs} from "@redux/actions";
+import socket from '@utils/socket/socket';
 
 interface initialState {
     dialogs:dialogItem[],
@@ -38,11 +39,13 @@ const initialState:initialState = {
     infoPartner: false
 }
 
+
 const dialogsSlice = createSlice( {
     name:'dialogs',
     initialState,
     reducers: {
         setCurrentDialog(state, action) {
+            socket.emit('DIALOGS:JOIN', action.payload.userid)
             state.currentDialog = action.payload
         },
         setInfoPartner(state, action) {

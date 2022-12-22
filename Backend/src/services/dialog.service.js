@@ -4,19 +4,19 @@ class DialogService {
 
     //Получение диалогов по id пользователя
     async getAllDialogsByUser(req) {
-        const {user_id} = req
-        // const userId = req.user.id
+        // const {user_id} = req
+         const userId = req.user.id
         // const userId = req.user.id
         const sql =
             `
             SELECT U.id as userId, U.fullname, U.avatar, C.id as convId, C.sender, C.unread, M.message, M.date, M.readed, C.last_message_id
             FROM users as U, conversation as C
             LEFT JOIN messages as M ON(C.last_message_id = M.id)
-            WHERE (C.first = ${user_id} OR C.second = ${user_id})
+            WHERE (C.first = ${userId} OR C.second = ${userId})
             AND CASE
-                WHEN C.first = ${user_id}
+                WHEN C.first = ${userId}
                     THEN C.second = U.id AND C.first_delete = 0
-                WHEN C.second = ${user_id}
+                WHEN C.second = ${userId}
                     THEN C.first = U.id AND C.second_delete = 0
                 END 
             ORDER BY C.unread DESC

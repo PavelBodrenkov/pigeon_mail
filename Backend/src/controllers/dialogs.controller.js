@@ -1,10 +1,19 @@
 const dialogService = require('../services/dialog.service')
 
 class DialogsController {
+
+
+    constructor(io) {
+        // console.log('io', io)
+        this.io = io
+    }
+
     async createDialog(req, res) {
        try {
            const dialog = await dialogService.createDialog(req)
-           res.json(dialog)
+           console.log('this.io',this.io)
+           // this.io.emit('SERVER:DIALOG_CREATED', dialog)
+           // res.json(dialog)
        } catch (e) {
            console.log('Ошибка диалога',e)
        }
@@ -21,4 +30,4 @@ class DialogsController {
 
 }
 
-module.exports = new DialogsController()
+module.exports = DialogsController

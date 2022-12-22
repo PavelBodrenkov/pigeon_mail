@@ -9,32 +9,36 @@ const usersController = require('./../controllers/users.controller');
 const auth = require('../middlewares/auth');
 const errorRouter = require('./error');
 
-router.use(requestLogger);
+module.exports = (io) => {
+    router.use(requestLogger);
 
-router.post('/signin', celebrate({
-    body: Joi.object().keys({
-        email:Joi.string().required().email(),
-        password: Joi.string().required()
-    }),
-}), usersController.login)
+    router.post('/signin', celebrate({
+        body: Joi.object().keys({
+            email:Joi.string().required().email(),
+            password: Joi.string().required()
+        }),
+    }), usersController.login)
 
-router.post('/signup',celebrate({
-    body: Joi.object().keys({
-        fullname:Joi.string().max(30),
-        email:Joi.string().required().email(),
-        password:Joi.string().required().min(6)
-    }),
-}), usersController.registration)
+    router.post('/signup',celebrate({
+        body: Joi.object().keys({
+            fullname:Joi.string().max(30),
+            email:Joi.string().required().email(),
+            password:Joi.string().required().min(6)
+        }),
+    }), usersController.registration)
 
-router.get('/refresh', usersController.refreshToken)
+    router.get('/refresh', usersController.refreshToken)
 
-router.use(auth);
-router.use(errorLogger);
+    router.use(auth);
+    router.use(errorLogger);
 
-router.get('/activate/:link')
-router.use('/user', userRouter);
-router.use('/dialog', dialogRouter);
-router.use('/message', messageRouter)
-router.use('/', errorRouter);
+    router.get('/activate/:link')
+    router.use('/user', userRouter);
+    router.use('/dialog', dialogRouter(io));
+    router.use('/message', messageRouter)
+    router.use('/', errorRouter);
 
-module.exports = router;
+    return router
+}
+
+

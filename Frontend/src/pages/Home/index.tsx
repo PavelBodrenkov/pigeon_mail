@@ -23,19 +23,19 @@ const Home = () => {
     const {convid} = currentDialog
     const messagesRef = useRef<any>(null);
 
-    useEffect(() => {
-        socket.emit('login', user.id)
-        socket.on('login', (msg) => {
-            console.log('socket', socket.id)
-            dispatch(setOnlineUsers(msg))
-        })
+     useEffect(() => {
+    //     socket.emit('login', user.id)
+    //     socket.on('login', (msg) => {
+    //         console.log('socket', socket.id)
+    //         dispatch(setOnlineUsers(msg))
+    //     })
         dispatch(fetchUsers.fetchUsers())
-        // dispatch(fetchDialogs.fetchDialogs())
-        socket.emit('getDialogs', user.id, user.fullname)
-        socket.on('getDialogs', (msg) => {
-            dispatch(setDialogs(msg))
-        })
-    }, [])
+    //     // dispatch(fetchDialogs.fetchDialogs())
+    //     socket.emit('getDialogs', user.id, user.fullname)
+    //     socket.on('getDialogs', (msg) => {
+    //         dispatch(setDialogs(msg))
+    //     })
+     }, [])
 
     useEffect(() => {
         if (messagesRef.current) {
