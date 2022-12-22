@@ -7,7 +7,8 @@ import {setInfoPartner} from "@redux/reducers/dialogs";
 import {Form} from "antd";
 import {getAvatar} from "@utils/services/services";
 
-const Status: FC<{ online?: boolean, currentDialog:any}> = ({online, currentDialog}) => {
+const Status: FC<{ online: number, currentDialog:any}> = ({online, currentDialog}) => {
+    console.log('online', online)
     const {fullname, avatar} = currentDialog
     const dispatch = useAppDispatch();
 
@@ -18,12 +19,12 @@ const Status: FC<{ online?: boolean, currentDialog:any}> = ({online, currentDial
     return (
         <div className={'chat__dialog-header'}>
            <div className={'chat__dialog-header_wrapper'}>
-               {getAvatar(avatar, fullname, 40)}
+               {getAvatar(avatar, fullname, 40, online)}
                <div className={'chat__dialog-header-center'}>
                    <b className={'chat__dialog-header-username'} onClick={handleInfoPartner}>{fullname}</b>
                    <div className={'chat__dialog-header-status'}>
-                     <span className={classNames('status', {"status--online": online})}>
-                            {online ? 'онлайн' : 'офлайн'}
+                     <span className={classNames('status', {"status--online": online == 1})}>
+                            {online == 1 ? 'онлайн' : 'офлайн'}
                      </span>
                    </div>
                </div>
@@ -31,8 +32,6 @@ const Status: FC<{ online?: boolean, currentDialog:any}> = ({online, currentDial
             <EllipsisOutlined style={{fontSize: 22, color:'white'}}/>
         </div>
     )
-
-
 };
 
 export default Status;

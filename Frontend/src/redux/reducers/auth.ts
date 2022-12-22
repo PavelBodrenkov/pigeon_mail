@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {auth} from "@redux/actions";
 import {IUser} from "@utils/api/models/IUser";
+import socket from "@utils/socket/socket";
 
 interface initialState {
     user:IUser,

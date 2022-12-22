@@ -47,6 +47,9 @@ const dialogsSlice = createSlice( {
         },
         setInfoPartner(state, action) {
             state.infoPartner = action.payload
+        },
+        setDialogs(state, action) {
+            state.dialogs = action.payload
         }
     },
     extraReducers: {
@@ -91,4 +94,4 @@ const dialogsSlice = createSlice( {
 })
 
 export default dialogsSlice.reducer
-export const {setCurrentDialog, setInfoPartner} = dialogsSlice.actions
+export const {setCurrentDialog, setInfoPartner, setDialogs} = dialogsSlice.actions

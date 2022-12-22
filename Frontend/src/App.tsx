@@ -13,11 +13,7 @@ function App() {
         if (localStorage.getItem('token')) {
             dispatch(auth.fetchCheckAuth())
         }
-        dispatch(fetchDialogs.fetchDialogs())
-        dispatch(fetchUsers.fetchUsers())
     }, [])
-
-
 
     return (
         <div className="wrapper">

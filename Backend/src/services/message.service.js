@@ -6,7 +6,6 @@ class MessageService {
     async getMessagesByDialog(req) {
         const userId = req.user.id
         const partnerId = req.params.id
-        console.log(userId, partnerId)
 
         if (userId !== partnerId) {
             const sql = `
@@ -108,16 +107,16 @@ class MessageService {
                                      END
                          WHERE id = ${message_id} RETURNING *`
             const result = await db.query(sql)
-                //Получаем последнее сообщение в диалоге
+            //Получаем последнее сообщение в диалоге
             const lastMessage = await db.query(`
                 SELECT id, conv_id
                 FROM messages
                 WHERE (sender = ${id} OR addressee = ${id})
                   AND sender_delete = 0
                   AND addressee_delete = 0
-                AND conv_id = ${result.rows[0].conv_id}
+                  AND conv_id = ${result.rows[0].conv_id}
                 ORDER BY ID DESC LIMIT 1`)
-                //Обновляем последнее сообщение в диалоге
+            //Обновляем последнее сообщение в диалоге
             await db.query(`UPDATE conversation
                             SET last_message_id = ${lastMessage.rows[0].id}
                             WHERE id = ${lastMessage.rows[0].conv_id}`)

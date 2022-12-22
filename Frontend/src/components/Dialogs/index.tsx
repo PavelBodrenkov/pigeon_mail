@@ -15,6 +15,8 @@ const Dialogs: FC<DialogsProps> = ({dialogs}) => {
     const { user } = useAppSelector(state => state.auth)
     const { online_users } = useAppSelector(state => state.users)
 
+    console.log('online_usersSIALOG', online_users)
+
     return (
         <div className={'dialogs'}>
             {dialogs?.map((item) => {

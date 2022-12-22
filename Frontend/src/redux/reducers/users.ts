@@ -4,7 +4,7 @@ import {IUser} from "@utils/api/models/IUser";
 
 interface initialState {
     users:IUser[],
-    online_users:{[x:number]: number | string},
+    online_users:{[x:number]: number},
     isLoadingUsers:boolean,
     errorUsers:{
         message:string,

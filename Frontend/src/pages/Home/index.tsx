@@ -3,13 +3,13 @@ import {ChatInput, LeftPanel, Profile, SideBar, Sider} from "@components/index";
 import {Messages, Status} from "@containers/index";
 import './Home.scss';
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import {useLocation, useNavigate} from "react-router-dom";
-import {setCurrentDialog} from "@redux/reducers/dialogs";
+import {useLocation} from "react-router-dom";
+import {setCurrentDialog, setDialogs} from "@redux/reducers/dialogs";
 import {dialogItem} from "./../../types/dialogTypes";
-import {messagesAction} from "@redux/actions";
+import {fetchDialogs, fetchUsers, messagesAction} from "@redux/actions";
 // @ts-ignore
 import Background from '../../assets/img/background-chat-vk-75.jpg';
-import {Button, Form, Image, Input, Layout, Space, Tabs} from "antd";
+import {Layout} from "antd";
 import socket from '../../utils/socket/socket';
 import {setOnlineUsers} from "@redux/reducers/users";
 
@@ -24,19 +24,24 @@ const Home = () => {
     const messagesRef = useRef<any>(null);
 
     useEffect(() => {
+        socket.emit('login', user.id)
+        socket.on('login', (msg) => {
+            console.log('socket', socket.id)
+            dispatch(setOnlineUsers(msg))
+        })
+        dispatch(fetchUsers.fetchUsers())
+        // dispatch(fetchDialogs.fetchDialogs())
+        socket.emit('getDialogs', user.id, user.fullname)
+        socket.on('getDialogs', (msg) => {
+            dispatch(setDialogs(msg))
+        })
+    }, [])
+
+    useEffect(() => {
         if (messagesRef.current) {
             messagesRef.current.scrollTo(0, 999999);
         }
     }, [messages]);
-
-    useEffect(() => {
-        socket.emit('connection', user)
-
-        socket.on('connection', (msg) => {
-            dispatch(setOnlineUsers(msg))
-            console.log('msg', msg)
-        })
-    }, [])
 
     useEffect(() => {
         if (location) {
@@ -46,7 +51,10 @@ const Home = () => {
                 localStorage.setItem('currentDialog', String(dialog.convid))
                 dispatch(messagesAction.fetchMessages(dialog.userid))
                 dispatch(setCurrentDialog(dialog))
-                socket.emit('joinRoom', { username:user.fullname, user_id:user.id, room:dialog.convid });
+                socket.emit('joinRoom', {username: user.fullname, user_id: user.id, room: dialog.convid});
+                // socket.on('message_info', (msg) => {
+                //     console.log(msg)
+                // })
             }
         }
     }, [location]);
@@ -57,7 +65,7 @@ const Home = () => {
                 return <SideBar/>
             }
             case 'settings': {
-                return <div style={{color:'white'}}>Настройки</div>
+                return <div style={{color: 'white'}}>Настройки</div>
             }
             case 'profile': {
                 return <Profile/>

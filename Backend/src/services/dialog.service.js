@@ -2,18 +2,21 @@ const db = require('../db');
 
 class DialogService {
 
+    //Получение диалогов по id пользователя
     async getAllDialogsByUser(req) {
-        const userId = req.user.id
+        const {user_id} = req
+        // const userId = req.user.id
+        // const userId = req.user.id
         const sql =
             `
             SELECT U.id as userId, U.fullname, U.avatar, C.id as convId, C.sender, C.unread, M.message, M.date, M.readed, C.last_message_id
             FROM users as U, conversation as C
             LEFT JOIN messages as M ON(C.last_message_id = M.id)
-            WHERE (C.first = ${userId} OR C.second = ${userId})
+            WHERE (C.first = ${user_id} OR C.second = ${user_id})
             AND CASE
-                WHEN C.first = ${userId}
+                WHEN C.first = ${user_id}
                     THEN C.second = U.id AND C.first_delete = 0
-                WHEN C.second = ${userId}
+                WHEN C.second = ${user_id}
                     THEN C.first = U.id AND C.second_delete = 0
                 END 
             ORDER BY C.unread DESC
@@ -22,6 +25,7 @@ class DialogService {
         return allDialog.rows
     }
 
+    //Создание диалога
     async createDialog(req) {
         const {owner, partner, message} = req.body
         //Проверяем, не отправляем ли мы диалог сами себе
@@ -80,6 +84,13 @@ class DialogService {
            // const res = await db.query(resultSql)
             return conversation_update.rows[0]
         }
+    }
+
+    async updateDialog (req) {
+        const {room} = req
+
+        const sql = `UPDATE conversation SET last_message`
+
     }
 
 }
